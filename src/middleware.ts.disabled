@@ -1,0 +1,48 @@
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+
+export function middleware(request: NextRequest) {
+  // Check if authorization header exists
+  const authHeader = request.headers.get('authorization');
+
+  if (!authHeader) {
+    return new NextResponse('Authentication required', {
+      status: 401,
+      headers: {
+        'WWW-Authenticate': 'Basic realm="Tech Talk AI - Internal Presentation"',
+      },
+    });
+  }
+
+  // Parse Basic Auth credentials
+  const auth = authHeader.split(' ')[1];
+  const [user, password] = Buffer.from(auth, 'base64').toString().split(':');
+
+  // Check credentials against environment variables
+  const validUser = process.env.AUTH_USER || 'tech-talk';
+  const validPassword = process.env.AUTH_PASSWORD || 'change-me-in-production';
+
+  if (user !== validUser || password !== validPassword) {
+    return new NextResponse('Invalid credentials', {
+      status: 401,
+      headers: {
+        'WWW-Authenticate': 'Basic realm="Tech Talk AI - Internal Presentation"',
+      },
+    });
+  }
+
+  // Authentication successful
+  return NextResponse.next();
+}
+
+// Protect all chapter routes but keep landing page public
+export const config = {
+  matcher: [
+    '/history/:path*',
+    '/policies/:path*',
+    '/neural/:path*',
+    '/agents/:path*',
+    '/notebooks/:path*',
+    '/api/:path*',
+  ],
+};
