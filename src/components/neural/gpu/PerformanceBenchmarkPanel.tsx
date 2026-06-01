@@ -48,7 +48,7 @@ export function PerformanceBenchmarkPanel() {
   return (
     <div className="space-y-6">
       {/* Tabs */}
-      <div className="flex gap-2 p-1 bg-black/40 rounded-lg w-fit">
+      <div className="flex gap-2 p-1 bg-[rgba(0,0,0,0.05)] rounded-lg w-fit">
         <button
           onClick={() => setActiveTab('training')}
           className={`px-6 py-2 rounded-md font-semibold transition-all ${

@@ -62,7 +62,7 @@ export function MatrixMultiplicationModal({ isOpen, onClose, data }: MatrixMulti
         {data.type === "node" && data.nodeId && <NodeMatrixView data={data} />}
         {data.type === "edge" && data.weight !== undefined && <EdgeMatrixView data={data} />}
 
-        <div className="mt-6 pt-6 border-t border-[rgba(255,255,255,0.1)]">
+        <div className="mt-6 pt-6 border-t border-[rgba(0,0,0,0.1)]">
           <p className="text-sm text-[color:var(--color-text-secondary)] text-center">
             Click outside or press ESC to close
           </p>
@@ -108,11 +108,11 @@ function NodeMatrixView({ data }: { data: MatrixClickData }) {
                 {/* Step 1: Linear Transformation */}
                 <div className="bg-[rgba(107,140,174,0.08)] border border-[rgba(107,140,174,0.3)] rounded-lg p-5 mb-4">
                   <h5 className="text-sm font-semibold text-[color:var(--color-text-primary)] mb-3 flex items-center gap-2">
-                    <span className="bg-[rgba(107,140,174,0.3)] text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">1</span>
+                    <span className="bg-[#0F4C81] text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">1</span>
                     Linear Transformation
                   </h5>
 
-                  <div className="bg-[rgba(12,18,26,0.8)] border border-[rgba(107,140,174,0.2)] rounded-lg p-4 mb-3">
+                  <div className="bg-[#F1F5F9] border border-[rgba(107,140,174,0.2)] rounded-lg p-4 mb-3">
                     <div className="font-mono text-sm text-[color:var(--color-text-secondary)]">
                       <div>z = w₁×x₁ + w₂×x₂ + b</div>
                       <div className="text-xs mt-2 text-[color:var(--color-text-secondary)] opacity-70">
@@ -130,11 +130,11 @@ function NodeMatrixView({ data }: { data: MatrixClickData }) {
                 {/* Step 2: Non-Linear Activation (ReLU) */}
                 <div className="bg-[rgba(255,140,107,0.08)] border border-[rgba(255,140,107,0.3)] rounded-lg p-5 mb-4">
                   <h5 className="text-sm font-semibold text-[color:var(--color-text-primary)] mb-3 flex items-center gap-2">
-                    <span className="bg-[rgba(255,140,107,0.5)] text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">2</span>
+                    <span className="bg-[#C2410C] text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">2</span>
                     Non-Linear Activation (ReLU)
                   </h5>
 
-                  <div className="bg-[rgba(12,18,26,0.8)] border border-[rgba(255,140,107,0.2)] rounded-lg p-4 mb-4">
+                  <div className="bg-[#F1F5F9] border border-[rgba(255,140,107,0.2)] rounded-lg p-4 mb-4">
                     <div className="font-mono text-sm text-[color:var(--color-accent)]">
                       <div>a = ReLU(z) = max(0, z)</div>
                       <div className="text-xs mt-2 text-[color:var(--color-text-secondary)] opacity-70">
@@ -147,28 +147,28 @@ function NodeMatrixView({ data }: { data: MatrixClickData }) {
                   <div className="bg-[rgba(255,255,255,0.03)] rounded-lg p-4 mb-3">
                     <svg viewBox="0 0 200 120" className="w-full max-w-xs mx-auto" role="img" aria-label="ReLU activation function">
                       {/* Grid */}
-                      <line x1="0" y1="80" x2="200" y2="80" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
-                      <line x1="60" y1="0" x2="60" y2="120" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
+                      <line x1="0" y1="80" x2="200" y2="80" stroke="rgba(0,0,0,0.1)" strokeWidth="1" />
+                      <line x1="60" y1="0" x2="60" y2="120" stroke="rgba(0,0,0,0.1)" strokeWidth="1" />
 
                       {/* Axes */}
-                      <line x1="60" y1="0" x2="60" y2="120" stroke="rgba(255,255,255,0.4)" strokeWidth="2" />
-                      <line x1="0" y1="80" x2="200" y2="80" stroke="rgba(255,255,255,0.4)" strokeWidth="2" />
+                      <line x1="60" y1="0" x2="60" y2="120" stroke="#64748B" strokeWidth="2" />
+                      <line x1="0" y1="80" x2="200" y2="80" stroke="#64748B" strokeWidth="2" />
 
                       {/* ReLU function: flat at 0 for negative, then linear */}
-                      <line x1="0" y1="80" x2="60" y2="80" stroke="rgba(255,140,107,1)" strokeWidth="3" />
-                      <line x1="60" y1="80" x2="180" y2="20" stroke="rgba(255,140,107,1)" strokeWidth="3" />
+                      <line x1="0" y1="80" x2="60" y2="80" stroke="#C2410C" strokeWidth="3" />
+                      <line x1="60" y1="80" x2="180" y2="20" stroke="#C2410C" strokeWidth="3" />
 
                       {/* Origin point */}
-                      <circle cx="60" cy="80" r="3" fill="rgba(255,140,107,1)" />
+                      <circle cx="60" cy="80" r="3" fill="#C2410C" />
 
                       {/* Labels */}
-                      <text x="100" y="15" fill="rgba(255,255,255,0.7)" fontSize="10" textAnchor="middle">a</text>
-                      <text x="185" y="95" fill="rgba(255,255,255,0.7)" fontSize="10" textAnchor="middle">z</text>
-                      <text x="50" y="95" fill="rgba(255,255,255,0.5)" fontSize="9">0</text>
+                      <text x="100" y="15" fill="#64748B" fontSize="10" textAnchor="middle">a</text>
+                      <text x="185" y="95" fill="#64748B" fontSize="10" textAnchor="middle">z</text>
+                      <text x="50" y="95" fill="#64748B" fontSize="9">0</text>
 
                       {/* Annotations */}
-                      <text x="30" y="73" fill="rgba(255,255,255,0.4)" fontSize="8">a = 0</text>
-                      <text x="130" y="40" fill="rgba(255,140,107,0.9)" fontSize="8">a = z</text>
+                      <text x="30" y="73" fill="#64748B" fontSize="8">a = 0</text>
+                      <text x="130" y="40" fill="#C2410C" fontSize="8">a = z</text>
                     </svg>
                     <p className="text-xs text-center text-[color:var(--color-text-secondary)] mt-2">
                       ReLU(z) = max(0, z)
@@ -188,15 +188,15 @@ function NodeMatrixView({ data }: { data: MatrixClickData }) {
                     <strong className="text-[color:var(--color-text-primary)]">Without this ReLU activation</strong>, stacking multiple layers would collapse into a single linear regression:
                   </p>
 
-                  <div className="bg-[rgba(12,18,26,0.9)] border border-[rgba(255,200,87,0.2)] rounded-lg p-4 mb-3 font-mono text-xs overflow-x-auto">
+                  <div className="bg-[#F1F5F9] border border-[rgba(255,200,87,0.2)] rounded-lg p-4 mb-3 font-mono text-xs overflow-x-auto">
                     <div className="text-[color:var(--color-text-secondary)] space-y-1">
                       <div>Layer 1: z₁ = W₁x + b₁</div>
                       <div>Layer 2: y = W₂z₁ + b₂</div>
                       <div className="opacity-50">─────────────────────────</div>
                       <div>Substituting:</div>
-                      <div className="text-[rgba(255,200,87,0.9)]">y = W₂(W₁x + b₁) + b₂</div>
-                      <div className="text-[rgba(255,200,87,0.9)]">y = (W₂W₁)x + (W₂b₁ + b₂)</div>
-                      <div className="text-[rgba(255,200,87,1)] font-semibold mt-2">y = W_combined·x + b_combined</div>
+                      <div className="text-[#B45309]">y = W₂(W₁x + b₁) + b₂</div>
+                      <div className="text-[#B45309]">y = (W₂W₁)x + (W₂b₁ + b₂)</div>
+                      <div className="text-[#B45309] font-semibold mt-2">y = W_combined·x + b_combined</div>
                     </div>
                   </div>
 
@@ -215,10 +215,10 @@ function NodeMatrixView({ data }: { data: MatrixClickData }) {
                   The output node combines all hidden layer activations:
                 </p>
 
-                <div className="bg-[rgba(12,18,26,0.8)] border border-[rgba(107,140,174,0.2)] rounded-lg p-6 font-mono text-sm overflow-x-auto">
+                <div className="bg-[#F1F5F9] border border-[rgba(107,140,174,0.2)] rounded-lg p-6 font-mono text-sm overflow-x-auto">
                   <div className="space-y-2 text-[color:var(--color-text-secondary)]">
                     <div>y = w₁×h₁ + w₂×h₂ + w₃×h₃ + w₄×h₄ + b</div>
-                    <div className="text-xs pt-2 border-t border-[rgba(255,255,255,0.1)] text-[color:var(--color-text-secondary)]">
+                    <div className="text-xs pt-2 border-t border-[rgba(0,0,0,0.1)] text-[color:var(--color-text-secondary)]">
                       where h₁, h₂, h₃, h₄ are hidden layer outputs and b is the output bias
                     </div>
                   </div>
@@ -294,16 +294,16 @@ function EdgeMatrixView({ data }: { data: MatrixClickData }) {
           Single Weight Contribution
         </h4>
 
-        <div className="bg-[rgba(12,18,26,0.8)] border border-[rgba(107,140,174,0.2)] rounded-lg p-6">
+        <div className="bg-[#F1F5F9] border border-[rgba(107,140,174,0.2)] rounded-lg p-6">
           <div className="font-mono text-sm space-y-3">
             <div className="text-[color:var(--color-text-secondary)]">
               contribution = {weight.toFixed(3)} × {data.fromLabel}_value
             </div>
-            <div className="text-xs text-[color:var(--color-text-secondary)] pt-2 border-t border-[rgba(255,255,255,0.1)]">
+            <div className="text-xs text-[color:var(--color-text-secondary)] pt-2 border-t border-[rgba(0,0,0,0.1)]">
               {isPositive ? (
-                <span className="text-[rgba(107,140,174,1)]">Positive weight: strengthens the signal</span>
+                <span className="text-[#0F4C81]">Positive weight: strengthens the signal</span>
               ) : (
-                <span className="text-[rgba(91,156,245,1)]">Negative weight: suppresses the signal</span>
+                <span className="text-[#0F4C81]">Negative weight: suppresses the signal</span>
               )}
             </div>
           </div>
@@ -317,7 +317,7 @@ function EdgeMatrixView({ data }: { data: MatrixClickData }) {
             This weight is one element in the weight matrix W:
           </p>
 
-          <div className="bg-[rgba(12,18,26,0.8)] rounded p-4 font-mono text-xs overflow-x-auto">
+          <div className="bg-[#F1F5F9] rounded p-4 font-mono text-xs overflow-x-auto">
             <div className="text-[color:var(--color-text-secondary)]">
               <div className="mb-2">W = [</div>
               <div className="ml-6 space-y-1">

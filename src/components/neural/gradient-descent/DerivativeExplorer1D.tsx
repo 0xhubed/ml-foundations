@@ -80,7 +80,7 @@ export function DerivativeExplorer1D() {
       </div>
 
       {/* SVG Visualization */}
-      <div className="bg-[rgba(12,18,26,0.6)] rounded-lg p-4 border border-[rgba(255,255,255,0.1)]">
+      <div className="bg-[#F8FAFC] rounded-lg p-4 border border-[rgba(0,0,0,0.08)]">
         <svg viewBox="0 0 600 500" className="w-full" style={{ maxHeight: "400px" }}>
           <defs>
             <linearGradient id="curve-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -98,7 +98,7 @@ export function DerivativeExplorer1D() {
               y1={mapY(0)}
               x2={mapX(x)}
               y2={mapY(10)}
-              stroke="rgba(255,255,255,0.05)"
+              stroke="rgba(0,0,0,0.06)"
               strokeWidth="1"
             />
           ))}
@@ -109,7 +109,7 @@ export function DerivativeExplorer1D() {
               y1={mapY(y)}
               x2={mapX(3)}
               y2={mapY(y)}
-              stroke="rgba(255,255,255,0.05)"
+              stroke="rgba(0,0,0,0.06)"
               strokeWidth="1"
             />
           ))}
@@ -120,7 +120,7 @@ export function DerivativeExplorer1D() {
             y1={mapY(0)}
             x2={mapX(3)}
             y2={mapY(0)}
-            stroke="rgba(255,255,255,0.3)"
+            stroke="rgba(0,0,0,0.25)"
             strokeWidth="2"
           />
           <line
@@ -128,15 +128,15 @@ export function DerivativeExplorer1D() {
             y1={mapY(0)}
             x2={mapX(0)}
             y2={mapY(10)}
-            stroke="rgba(255,255,255,0.3)"
+            stroke="rgba(0,0,0,0.25)"
             strokeWidth="2"
           />
 
           {/* Axis labels */}
-          <text x={mapX(3) + 10} y={mapY(0) + 5} fontSize="14" fill="rgba(255,255,255,0.6)">
+          <text x={mapX(3) + 10} y={mapY(0) + 5} fontSize="14" fill="#64748B">
             x
           </text>
-          <text x={mapX(0) - 25} y={mapY(10) - 10} fontSize="14" fill="rgba(255,255,255,0.6)">
+          <text x={mapX(0) - 25} y={mapY(10) - 10} fontSize="14" fill="#64748B">
             f(x)
           </text>
 
@@ -148,14 +148,14 @@ export function DerivativeExplorer1D() {
                 y1={mapY(0) - 5}
                 x2={mapX(x)}
                 y2={mapY(0) + 5}
-                stroke="rgba(255,255,255,0.3)"
+                stroke="rgba(0,0,0,0.25)"
                 strokeWidth="1"
               />
               <text
                 x={mapX(x)}
                 y={mapY(0) + 20}
                 fontSize="12"
-                fill="rgba(255,255,255,0.5)"
+                fill="#94A3B8"
                 textAnchor="middle"
               >
                 {x}
@@ -216,8 +216,8 @@ export function DerivativeExplorer1D() {
             cx={mapX(xPoint)}
             cy={mapY(currentY)}
             r="10"
-            fill="rgba(255,200,87,1)"
-            stroke="white"
+            fill="#D97706"
+            stroke="#FFFFFF"
             strokeWidth="2"
             style={{ cursor: "grab" }}
             onMouseDown={(e) => {
@@ -247,7 +247,7 @@ export function DerivativeExplorer1D() {
             x={mapX(xPoint)}
             y={mapY(currentY) - 20}
             fontSize="12"
-            fill="rgba(255,200,87,1)"
+            fill="#B45309"
             textAnchor="middle"
             fontWeight="bold"
           >
@@ -260,7 +260,7 @@ export function DerivativeExplorer1D() {
               x={mapX(xPoint + 1)}
               y={mapY(currentY + currentSlope * 1) - 10}
               fontSize="11"
-              fill="rgba(107,140,174,1)"
+              fill="#0F4C81"
               fontWeight="bold"
             >
               slope = {currentSlope.toFixed(2)}
@@ -279,7 +279,7 @@ export function DerivativeExplorer1D() {
           <div className="space-y-2 text-sm">
             <div className="flex justify-between items-center">
               <span className="text-[color:var(--color-text-secondary)]">Position x:</span>
-              <span className="font-mono text-[rgba(255,200,87,1)] font-bold">
+              <span className="font-mono text-[#B45309] font-bold">
                 {xPoint.toFixed(3)}
               </span>
             </div>
@@ -291,15 +291,15 @@ export function DerivativeExplorer1D() {
                 {currentY.toFixed(3)}
               </span>
             </div>
-            <div className="flex justify-between items-center border-t border-[rgba(255,255,255,0.1)] pt-2">
+            <div className="flex justify-between items-center border-t border-[rgba(0,0,0,0.1)] pt-2">
               <span className="text-[color:var(--color-text-secondary)]">
                 Derivative f&apos;(x) = 2x:
               </span>
-              <span className="font-mono text-[rgba(107,140,174,1)] font-bold">
+              <span className="font-mono text-[color:var(--color-accent)] font-bold">
                 {currentSlope.toFixed(3)}
               </span>
             </div>
-            <div className="mt-3 p-2 bg-[rgba(12,18,26,0.4)] rounded">
+            <div className="mt-3 p-2 bg-[rgba(15,76,129,0.06)] rounded">
               <p className="text-xs text-[color:var(--color-text-secondary)]">
                 {currentSlope > 0.01
                   ? "Positive slope → Function increasing → Go left to decrease"
@@ -328,15 +328,15 @@ export function DerivativeExplorer1D() {
                 step="0.1"
                 value={learningRate}
                 onChange={(e) => setLearningRate(parseFloat(e.target.value))}
-                className="w-full h-2 bg-[rgba(255,255,255,0.1)] rounded-lg appearance-none cursor-pointer accent-[rgba(34,197,94,1)]"
+                className="w-full h-2 bg-[rgba(0,0,0,0.1)] rounded-lg appearance-none cursor-pointer accent-[rgba(34,197,94,1)]"
               />
             </div>
 
             <div className="text-sm space-y-1">
-              <div className="font-mono text-xs bg-[rgba(12,18,26,0.4)] p-2 rounded">
+              <div className="font-mono text-xs bg-[rgba(15,76,129,0.06)] p-2 rounded">
                 <InlineMath math={`x_{new} = x - \\alpha \\cdot f'(x)`} />
               </div>
-              <div className="font-mono text-xs bg-[rgba(12,18,26,0.4)] p-2 rounded">
+              <div className="font-mono text-xs bg-[rgba(15,76,129,0.06)] p-2 rounded">
                 <InlineMath
                   math={`x_{new} = ${xPoint.toFixed(2)} - ${learningRate.toFixed(2)} \\cdot ${currentSlope.toFixed(2)} = ${nextX.toFixed(2)}`}
                 />
@@ -356,7 +356,7 @@ export function DerivativeExplorer1D() {
               </button>
               <button
                 onClick={reset}
-                className="px-4 py-2 bg-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.1)] border border-[rgba(255,255,255,0.1)] rounded-lg text-sm font-medium text-[color:var(--color-text-secondary)] transition-colors"
+                className="px-4 py-2 bg-[rgba(15,76,129,0.06)] hover:bg-[rgba(15,76,129,0.12)] border border-[rgba(15,76,129,0.12)] rounded-lg text-sm font-medium text-[color:var(--color-text-secondary)] transition-colors"
               >
                 Reset
               </button>

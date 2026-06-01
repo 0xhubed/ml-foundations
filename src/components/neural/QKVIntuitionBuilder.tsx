@@ -6,8 +6,8 @@ type Step = "database" | "language" | "math";
 
 const STEPS = [
   { id: "database" as Step, label: "1. Database Analogy", color: "rgba(107,140,174,1)" },
-  { id: "language" as Step, label: "2. Apply to Language", color: "rgba(125,163,198,1)" },
-  { id: "math" as Step, label: "3. The Mechanism", color: "rgba(255,200,87,1)" },
+  { id: "language" as Step, label: "2. Apply to Language", color: "#0F4C81" },
+  { id: "math" as Step, label: "3. The Mechanism", color: "#B45309" },
 ];
 
 export function QKVIntuitionBuilder() {
@@ -36,7 +36,7 @@ export function QKVIntuitionBuilder() {
             className={`flex-1 px-4 py-3 rounded-lg transition-all ${
               currentStep === step.id
                 ? "bg-[rgba(107,140,174,0.2)] border-2 border-[rgba(107,140,174,1)]"
-                : "bg-[rgba(12,18,26,0.6)] border border-[rgba(255,255,255,0.2)] hover:border-[color:var(--color-accent)]"
+                : "bg-[#F1F5F9] border border-[rgba(0,0,0,0.12)] hover:border-[color:var(--color-accent)]"
             }`}
           >
             <div className="text-sm font-semibold" style={{ color: step.color }}>
@@ -60,8 +60,8 @@ export function QKVIntuitionBuilder() {
             {/* Search Example */}
             <div className="space-y-4">
               {/* Query */}
-              <div className="bg-[rgba(12,18,26,0.8)] rounded-lg p-4">
-                <div className="text-xs font-semibold text-[rgba(255,200,87,1)] mb-2">
+              <div className="bg-[#F1F5F9] rounded-lg p-4">
+                <div className="text-xs font-semibold text-[#B45309] mb-2">
                   YOUR QUERY (what you're looking for)
                 </div>
                 <div className="text-sm text-[color:var(--color-text-primary)] font-mono">
@@ -70,8 +70,8 @@ export function QKVIntuitionBuilder() {
               </div>
 
               {/* Database with Keys and Values */}
-              <div className="bg-[rgba(12,18,26,0.8)] rounded-lg p-4">
-                <div className="text-xs font-semibold text-[rgba(125,163,198,1)] mb-3">
+              <div className="bg-[#F1F5F9] rounded-lg p-4">
+                <div className="text-xs font-semibold text-[#0F4C81] mb-3">
                   DATABASE ENTRIES
                 </div>
                 <div className="space-y-3">
@@ -99,16 +99,16 @@ export function QKVIntuitionBuilder() {
                   ].map((item, idx) => (
                     <div
                       key={idx}
-                      className="border border-[rgba(255,255,255,0.1)] rounded-lg p-3"
+                      className="border border-[rgba(0,0,0,0.1)] rounded-lg p-3"
                       style={{
                         backgroundColor: `rgba(107,140,174,${item.score * 0.3})`,
                       }}
                     >
                       <div className="flex items-start justify-between mb-2">
-                        <div className="text-xs font-semibold text-[rgba(125,163,198,1)]">
+                        <div className="text-xs font-semibold text-[#0F4C81]">
                           Key {idx + 1}: "{item.key}"
                         </div>
-                        <div className="text-xs font-mono text-[rgba(255,200,87,1)]">
+                        <div className="text-xs font-mono text-[#B45309]">
                           match: {item.score}
                         </div>
                       </div>
@@ -122,7 +122,7 @@ export function QKVIntuitionBuilder() {
 
               {/* Result */}
               <div className="bg-[rgba(34,197,94,0.1)] border border-[rgba(34,197,94,0.3)] rounded-lg p-4">
-                <div className="text-xs font-semibold text-[rgba(34,197,94,1)] mb-2">
+                <div className="text-xs font-semibold text-[#059669] mb-2">
                   SEARCH RESULT (weighted combination)
                 </div>
                 <div className="text-sm text-[color:var(--color-text-primary)] mb-2">
@@ -164,7 +164,7 @@ export function QKVIntuitionBuilder() {
             </p>
 
             {/* Sentence */}
-            <div className="mb-4 bg-[rgba(12,18,26,0.8)] rounded-lg p-4">
+            <div className="mb-4 bg-[#F1F5F9] rounded-lg p-4">
               <div className="text-xs font-semibold text-[color:var(--color-text-secondary)] mb-2">
                 SENTENCE
               </div>
@@ -187,8 +187,8 @@ export function QKVIntuitionBuilder() {
             {/* Processing "it" */}
             <div className="space-y-4">
               {/* Query */}
-              <div className="bg-[rgba(12,18,26,0.8)] rounded-lg p-4">
-                <div className="text-xs font-semibold text-[rgba(255,200,87,1)] mb-2">
+              <div className="bg-[#F1F5F9] rounded-lg p-4">
+                <div className="text-xs font-semibold text-[#B45309] mb-2">
                   QUERY: Word "it" asks...
                 </div>
                 <div className="text-sm text-[color:var(--color-text-primary)]">
@@ -200,8 +200,8 @@ export function QKVIntuitionBuilder() {
               </div>
 
               {/* Keys from other words */}
-              <div className="bg-[rgba(12,18,26,0.8)] rounded-lg p-4">
-                <div className="text-xs font-semibold text-[rgba(125,163,198,1)] mb-3">
+              <div className="bg-[#F1F5F9] rounded-lg p-4">
+                <div className="text-xs font-semibold text-[#0F4C81] mb-3">
                   KEYS: What each word offers
                 </div>
                 <div className="space-y-2">
@@ -215,7 +215,7 @@ export function QKVIntuitionBuilder() {
                   ].map((item, idx) => (
                     <div
                       key={idx}
-                      className="flex items-center justify-between p-2 rounded border border-[rgba(255,255,255,0.1)]"
+                      className="flex items-center justify-between p-2 rounded border border-[rgba(0,0,0,0.1)]"
                       style={{
                         backgroundColor: `rgba(125,163,198,${item.score * 0.5})`,
                       }}
@@ -231,7 +231,7 @@ export function QKVIntuitionBuilder() {
                           {item.desc}
                         </span>
                       </div>
-                      <span className="text-xs font-mono text-[rgba(255,200,87,1)]">
+                      <span className="text-xs font-mono text-[#B45309]">
                         {item.score}
                       </span>
                     </div>
@@ -240,7 +240,7 @@ export function QKVIntuitionBuilder() {
               </div>
 
               {/* Values */}
-              <div className="bg-[rgba(12,18,26,0.8)] rounded-lg p-4">
+              <div className="bg-[#F1F5F9] rounded-lg p-4">
                 <div className="text-xs font-semibold text-[rgba(107,140,174,1)] mb-3">
                   VALUES: Each word's representation
                 </div>
@@ -259,7 +259,7 @@ export function QKVIntuitionBuilder() {
                           {item.value}
                         </span>
                       </div>
-                      <span className="text-xs text-[rgba(255,200,87,1)]">
+                      <span className="text-xs text-[#B45309]">
                         × {item.weight}
                       </span>
                     </div>
@@ -269,7 +269,7 @@ export function QKVIntuitionBuilder() {
 
               {/* Result */}
               <div className="bg-[rgba(34,197,94,0.1)] border border-[rgba(34,197,94,0.3)] rounded-lg p-4">
-                <div className="text-xs font-semibold text-[rgba(34,197,94,1)] mb-2">
+                <div className="text-xs font-semibold text-[#059669] mb-2">
                   OUTPUT: New representation for "it"
                 </div>
                 <div className="text-sm text-[color:var(--color-text-primary)] font-mono mb-2">
@@ -313,7 +313,7 @@ export function QKVIntuitionBuilder() {
             {/* Step-by-step computation */}
             <div className="space-y-6">
               {/* Step 1: Compute similarities */}
-              <div className="bg-[rgba(12,18,26,0.8)] rounded-lg p-4">
+              <div className="bg-[#F1F5F9] rounded-lg p-4">
                 <div className="text-sm font-semibold text-[color:var(--color-text-primary)] mb-3">
                   Step 1: Compute Similarities (Q · K^T)
                 </div>
@@ -325,25 +325,25 @@ export function QKVIntuitionBuilder() {
                     <span className="text-[color:var(--color-text-secondary)]">
                       "it" · "The" = [0.2, 0.8, -0.3, 0.5] · [0.1, 0.1, 0.0, 0.2]
                     </span>
-                    <span className="text-[rgba(255,200,87,1)]">= 0.20</span>
+                    <span className="text-[#B45309]">= 0.20</span>
                   </div>
                   <div className="flex justify-between items-center p-2 bg-[rgba(125,163,198,0.1)] rounded border border-[rgba(125,163,198,0.5)]">
                     <span className="text-[color:var(--color-text-primary)]">
                       "it" · "dog" = [0.2, 0.8, -0.3, 0.5] · [0.3, 0.9, -0.2, 0.6]
                     </span>
-                    <span className="text-[rgba(255,200,87,1)] font-bold">= 1.19</span>
+                    <span className="text-[#B45309] font-bold">= 1.19</span>
                   </div>
                   <div className="flex justify-between items-center p-2 bg-[rgba(255,255,255,0.03)] rounded">
                     <span className="text-[color:var(--color-text-secondary)]">
                       "it" · "chased" = [0.2, 0.8, -0.3, 0.5] · [-0.1, 0.4, 0.7, 0.2]
                     </span>
-                    <span className="text-[rgba(255,200,87,1)]">= 0.09</span>
+                    <span className="text-[#B45309]">= 0.09</span>
                   </div>
                   <div className="flex justify-between items-center p-2 bg-[rgba(255,255,255,0.03)] rounded">
                     <span className="text-[color:var(--color-text-secondary)]">
                       "it" · "cat" = [0.2, 0.8, -0.3, 0.5] · [0.2, 0.7, -0.1, 0.4]
                     </span>
-                    <span className="text-[rgba(255,200,87,1)]">= 0.83</span>
+                    <span className="text-[#B45309]">= 0.83</span>
                   </div>
                 </div>
                 <p className="text-xs text-[color:var(--color-text-secondary)] mt-3">
@@ -352,7 +352,7 @@ export function QKVIntuitionBuilder() {
               </div>
 
               {/* Step 2: Scale */}
-              <div className="bg-[rgba(12,18,26,0.8)] rounded-lg p-4">
+              <div className="bg-[#F1F5F9] rounded-lg p-4">
                 <div className="text-sm font-semibold text-[color:var(--color-text-primary)] mb-3">
                   Step 2: Scale (÷ √d_k)
                 </div>
@@ -362,19 +362,19 @@ export function QKVIntuitionBuilder() {
                 <div className="space-y-2 font-mono text-xs">
                   <div className="flex justify-between items-center p-2 bg-[rgba(255,255,255,0.03)] rounded">
                     <span className="text-[color:var(--color-text-secondary)]">0.20 ÷ 2</span>
-                    <span className="text-[rgba(255,200,87,1)]">= 0.10</span>
+                    <span className="text-[#B45309]">= 0.10</span>
                   </div>
                   <div className="flex justify-between items-center p-2 bg-[rgba(125,163,198,0.1)] rounded border border-[rgba(125,163,198,0.5)]">
                     <span className="text-[color:var(--color-text-primary)]">1.19 ÷ 2</span>
-                    <span className="text-[rgba(255,200,87,1)] font-bold">= 0.60</span>
+                    <span className="text-[#B45309] font-bold">= 0.60</span>
                   </div>
                   <div className="flex justify-between items-center p-2 bg-[rgba(255,255,255,0.03)] rounded">
                     <span className="text-[color:var(--color-text-secondary)]">0.09 ÷ 2</span>
-                    <span className="text-[rgba(255,200,87,1)]">= 0.05</span>
+                    <span className="text-[#B45309]">= 0.05</span>
                   </div>
                   <div className="flex justify-between items-center p-2 bg-[rgba(255,255,255,0.03)] rounded">
                     <span className="text-[color:var(--color-text-secondary)]">0.83 ÷ 2</span>
-                    <span className="text-[rgba(255,200,87,1)]">= 0.42</span>
+                    <span className="text-[#B45309]">= 0.42</span>
                   </div>
                 </div>
                 <p className="text-xs text-[color:var(--color-text-secondary)] mt-3">
@@ -383,7 +383,7 @@ export function QKVIntuitionBuilder() {
               </div>
 
               {/* Step 3: Softmax */}
-              <div className="bg-[rgba(12,18,26,0.8)] rounded-lg p-4">
+              <div className="bg-[#F1F5F9] rounded-lg p-4">
                 <div className="text-sm font-semibold text-[color:var(--color-text-primary)] mb-3">
                   Step 3: Softmax (Convert to Probabilities)
                 </div>
@@ -393,23 +393,23 @@ export function QKVIntuitionBuilder() {
                 <div className="space-y-2 font-mono text-xs">
                   <div className="flex justify-between items-center p-2 bg-[rgba(255,255,255,0.03)] rounded">
                     <span className="text-[color:var(--color-text-secondary)]">softmax(0.10)</span>
-                    <span className="text-[rgba(255,200,87,1)]">= 0.05</span>
+                    <span className="text-[#B45309]">= 0.05</span>
                   </div>
                   <div className="flex justify-between items-center p-2 bg-[rgba(125,163,198,0.2)] rounded border-2 border-[rgba(125,163,198,1)]">
                     <span className="text-[color:var(--color-text-primary)]">softmax(0.60)</span>
-                    <span className="text-[rgba(255,200,87,1)] font-bold">= 0.65</span>
+                    <span className="text-[#B45309] font-bold">= 0.65</span>
                   </div>
                   <div className="flex justify-between items-center p-2 bg-[rgba(255,255,255,0.03)] rounded">
                     <span className="text-[color:var(--color-text-secondary)]">softmax(0.05)</span>
-                    <span className="text-[rgba(255,200,87,1)]">= 0.03</span>
+                    <span className="text-[#B45309]">= 0.03</span>
                   </div>
                   <div className="flex justify-between items-center p-2 bg-[rgba(255,255,255,0.03)] rounded">
                     <span className="text-[color:var(--color-text-secondary)]">softmax(0.42)</span>
-                    <span className="text-[rgba(255,200,87,1)]">= 0.27</span>
+                    <span className="text-[#B45309]">= 0.27</span>
                   </div>
                   <div className="mt-2 p-2 bg-[rgba(34,197,94,0.1)] border border-[rgba(34,197,94,0.3)] rounded">
                     <span className="text-[color:var(--color-text-secondary)]">Total:</span>
-                    <span className="text-[rgba(34,197,94,1)] ml-2">0.05 + 0.65 + 0.03 + 0.27 = 1.00 ✓</span>
+                    <span className="text-[#059669] ml-2">0.05 + 0.65 + 0.03 + 0.27 = 1.00 ✓</span>
                   </div>
                 </div>
                 <p className="text-xs text-[color:var(--color-text-secondary)] mt-3">
@@ -418,7 +418,7 @@ export function QKVIntuitionBuilder() {
               </div>
 
               {/* Step 4: Weighted sum */}
-              <div className="bg-[rgba(12,18,26,0.8)] rounded-lg p-4">
+              <div className="bg-[#F1F5F9] rounded-lg p-4">
                 <div className="text-sm font-semibold text-[color:var(--color-text-primary)] mb-3">
                   Step 4: Weighted Sum of Values
                 </div>
@@ -447,7 +447,7 @@ export function QKVIntuitionBuilder() {
                     </div>
                   </div>
                   <div className="mt-3 p-3 bg-[rgba(34,197,94,0.15)] border-2 border-[rgba(34,197,94,1)] rounded">
-                    <div className="text-[rgba(34,197,94,1)] font-bold">
+                    <div className="text-[#059669] font-bold">
                       OUTPUT = [0.43, 0.85, -0.31, 0.65, 0.27]
                     </div>
                     <div className="text-xs text-[color:var(--color-text-secondary)] mt-2">
@@ -462,7 +462,7 @@ export function QKVIntuitionBuilder() {
                 <div className="text-sm font-semibold text-[color:var(--color-text-primary)] mb-3">
                   The Complete Formula
                 </div>
-                <div className="bg-[rgba(12,18,26,0.8)] rounded-lg p-4 font-mono text-sm text-[color:var(--color-text-primary)] text-center">
+                <div className="bg-[#F1F5F9] rounded-lg p-4 font-mono text-sm text-[color:var(--color-text-primary)] text-center">
                   Attention(Q, K, V) = softmax(Q·K^T / √d_k) × V
                 </div>
                 <div className="mt-4 space-y-2 text-xs text-[color:var(--color-text-secondary)]">
@@ -498,7 +498,7 @@ export function QKVIntuitionBuilder() {
             if (currentIdx > 0) setCurrentStep(STEPS[currentIdx - 1].id);
           }}
           disabled={currentStep === "database"}
-          className="px-4 py-2 rounded-lg bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.2)] text-[color:var(--color-text-primary)] disabled:opacity-30 disabled:cursor-not-allowed hover:border-[rgba(107,140,174,0.5)] transition-all"
+          className="px-4 py-2 rounded-lg bg-[rgba(255,255,255,0.05)] border border-[rgba(0,0,0,0.12)] text-[color:var(--color-text-primary)] disabled:opacity-30 disabled:cursor-not-allowed hover:border-[rgba(107,140,174,0.5)] transition-all"
         >
           ← Previous
         </button>

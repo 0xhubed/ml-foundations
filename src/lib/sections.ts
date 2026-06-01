@@ -70,24 +70,25 @@ export const chapters: ChapterDefinition[] = [
         description: "The simplest model - predicting output as a linear function of input - and how the cost function measures error.",
       },
       {
+        id: "derivatives",
+        title: "Understanding Derivatives",
+        description: "How derivatives measure change in 1D and multi-dimensional settings - the slope that tells us which way is downhill.",
+      },
+      {
         id: "gradient-descent",
         title: "Gradient Descent",
         description: "How models learn by following the slope downhill on the cost landscape to find the lowest point.",
       },
       {
-        id: "derivatives",
-        title: "Understanding Derivatives",
-        description: "How derivatives measure change in 1D and multi-dimensional settings - the math behind gradient descent.",
+        id: "backpropagation",
+        title: "Backpropagation",
+        description: "The chain-rule algorithm that propagates error backward to compute gradients efficiently.",
       },
       {
         id: "distributed-representations",
         title: "Why Gradient Descent Hides How Models Think",
-        description: "How coupled parameter updates create powerful but opaque, hard-to-interpret models.",
-      },
-      {
-        id: "backpropagation",
-        title: "Backpropagation",
-        description: "The chain-rule algorithm that propagates error backward to compute gradients efficiently.",
+        description: "An aside: how coupled parameter updates create powerful but opaque, hard-to-interpret models.",
+        isAdditionalResource: true,
       },
       {
         id: "activation-functions",
@@ -100,14 +101,19 @@ export const chapters: ChapterDefinition[] = [
         description: "Where linear models break down and why neural networks are needed to capture non-linear patterns.",
       },
       {
-        id: "rnn-architecture",
-        title: "RNN Architecture",
-        description: "Pre-transformer sequence models: how RNNs process sequences and why they struggle to scale.",
-      },
-      {
         id: "language-problem",
         title: "The Language Problem",
-        description: "Why language understanding is uniquely challenging for simple feed-forward networks.",
+        description: "Why language understanding - memory, context, and word order - is uniquely challenging for simple feed-forward networks.",
+      },
+      {
+        id: "rnn-architecture",
+        title: "RNN Architecture",
+        description: "The first attempt at sequences: how RNNs carry a hidden state forward and why they struggle to scale.",
+      },
+      {
+        id: "embeddings",
+        title: "Embeddings",
+        description: "How words become vectors, so that similar meanings sit close together in a space a network can compute with.",
       },
       {
         id: "transformer-architecture",
