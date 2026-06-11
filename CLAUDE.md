@@ -10,11 +10,20 @@ A single-page Next.js 15 (App Router) site: an interactive "Machine Learning Fou
 
 ```bash
 npm install
-npm run dev      # dev server (Turbopack) on localhost:3000
+npm run dev      # dev server (Turbopack) — page is at localhost:3000/ml-foundations (basePath!)
 npm run build    # production build (Turbopack) — the source of truth (see below)
 npm start        # serve the production build
 npm run lint     # eslint
 ```
+
+**`basePath: "/ml-foundations"` is set in `next.config.ts`**: the site is published as
+`agent-engineering.ch/ml-foundations` via a rewrite in the separate `agent-engineering`
+Vercel project. Locally the page therefore lives under `/ml-foundations` too; the bare
+root `/` 404s. Don't remove the basePath without also changing that rewrite.
+
+Do not run `npm run build` while `npm run dev` is running — they share `.next` and the
+dev server will start serving stale or broken output (if that happens: kill dev,
+`rm -rf .next`, restart).
 
 There is **no test suite** (no `test` script). Verify changes with `npm run build` and by viewing the page.
 
