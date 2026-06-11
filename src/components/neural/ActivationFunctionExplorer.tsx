@@ -78,16 +78,15 @@ export function ActivationFunctionExplorer() {
   }, [xValues]);
 
   return (
-    <div className="glass-panel p-6">
+    <div className="glass-panel p-4 sm:p-6">
       <div className="grid md:grid-cols-2 gap-6">
         {/* Plot on the left */}
-        <div>
+        <div className="h-[320px] sm:h-[420px] lg:h-[450px]">
           <Plot
             data={plotData}
             layout={{
               ...lightThemeLayout2D,
               autosize: true,
-              height: 450,
               xaxis: {
                 ...lightThemeLayout2D.xaxis,
                 title: { text: "Input", font: { size: 14, color: "#1A1A1A" } },

@@ -681,6 +681,13 @@ main {
   line-height: 1.4;
 }
 
+/* Wide formulas scroll within their block instead of stretching the page */
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-block: 0.25rem;
+}
+
 .math-copy-block {
   position: relative;
   display: inline-flex;

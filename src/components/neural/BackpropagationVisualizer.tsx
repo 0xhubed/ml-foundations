@@ -179,7 +179,7 @@ export function BackpropagationVisualizer() {
 
         {/* Network Visualization */}
         <div className="flex items-center justify-center mb-8">
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-3 sm:gap-6">
             {/* Input */}
             <div className="flex flex-col items-center gap-2">
               <div

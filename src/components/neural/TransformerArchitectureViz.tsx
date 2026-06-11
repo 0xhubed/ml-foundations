@@ -31,7 +31,7 @@ export function TransformerArchitectureViz() {
   };
 
   return (
-    <div className="glass-panel p-8">
+    <div className="glass-panel p-4 sm:p-8">
       <div className="mb-6 flex items-center justify-between flex-wrap gap-4">
         <div className="flex items-center gap-4">
           <label className="flex items-center gap-2 text-sm text-[color:var(--color-text-secondary)]">
@@ -63,7 +63,10 @@ export function TransformerArchitectureViz() {
       </div>
 
       {/* Main Transformer Architecture */}
-      <div className="relative bg-gray-50 border border-gray-200 rounded-lg p-8 overflow-x-auto">
+      <p className="mb-2 text-xs text-[color:var(--color-text-secondary)] lg:hidden">
+        Swipe sideways to see the full architecture →
+      </p>
+      <div className="relative bg-gray-50 border border-gray-200 rounded-lg p-4 sm:p-8 overflow-x-auto">
         <div className="min-w-[800px]">
           {/* Architecture Layers */}
           <div className="relative" style={{ height: "600px" }}>

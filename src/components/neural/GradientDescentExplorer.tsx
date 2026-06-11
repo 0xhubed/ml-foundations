@@ -204,13 +204,17 @@ export function GradientDescentExplorer() {
 
   const currentStepData = descentPath[currentStep];
 
+  // Scale the 3D scene height with the container so the chart doesn't tower
+  // over narrow (mobile) viewports; 600px is the desktop size.
+  const plotHeight = Math.min(600, Math.max(360, Math.round(plotWidth * 0.85)));
+
   const resetPath = () => {
     setCurrentStep(0);
     setIsPlaying(false);
   };
 
   return (
-    <FullScreenCard className="glass-panel p-6" title="Gradient Descent Explorer">
+    <FullScreenCard className="glass-panel p-4 sm:p-6" title="Gradient Descent Explorer">
       {/* Mathematical Formula */}
       <div className="mb-6 bg-[rgba(107,140,174,0.08)] border border-[rgba(107,140,174,0.3)] rounded-lg p-4">
         <div className="grid md:grid-cols-2 gap-6">
@@ -258,7 +262,7 @@ export function GradientDescentExplorer() {
             <Plot
               key={plotWidth}
               data={surfaceData.data}
-              layout={surfaceData.layout}
+              layout={{ ...surfaceData.layout, height: plotHeight }}
               config={config}
               useResizeHandler
               style={{ width: "100%", height: "100%" }}
@@ -349,7 +353,7 @@ export function GradientDescentExplorer() {
           }}
         />
 
-        <div className="flex items-center gap-3 text-xs">
+        <div className="flex flex-wrap items-center gap-3 text-xs">
           <span className="uppercase tracking-[0.22em] text-[color:var(--color-text-secondary)]">Starting Point</span>
           {(["far", "medium", "near"] as const).map((point) => (
             <button
@@ -388,7 +392,7 @@ export function GradientDescentExplorer() {
         </div>
 
         {/* Compact Linear Regression Weights Visualization on the right */}
-        <div className="border border-[rgba(0,0,0,0.1)] rounded-lg p-3 bg-[rgba(248,250,252,0.7)]">
+        <div className="border border-[rgba(0,0,0,0.1)] rounded-lg p-3 bg-[rgba(248,250,252,0.7)] overflow-x-auto">
         <div className="flex items-center justify-center gap-3">
           {/* Input */}
           <div className="flex flex-col items-center">

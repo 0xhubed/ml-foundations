@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { useMemo } from "react";
 import type { Data, Layout } from "plotly.js";
 import { lightThemeLayout2D, PLOTLY_COLORS } from "@/lib/plotlyLightTheme";
+import { usePlotContainerWidth } from "@/lib/usePlotContainerWidth";
 
 const Plot = dynamic(() => import("react-plotly.js"), {
   ssr: false,
@@ -19,6 +20,10 @@ export function DistributedRepresentationDemo() {
   const features = ["Location", "Metro Dist.", "School Rating", "Neighborhood"];
 
   const colors = ["#0F4C81", "#D97706", "#059669", "#DC2626"];
+
+  const { ref: plotContainerRef, width: plotWidth } = usePlotContainerWidth();
+  // Below this width the two panels are too cramped side by side; stack them.
+  const isNarrow = plotWidth > 0 && plotWidth < 640;
 
   // Generate traces for parallel coordinates
   const visualizationData = useMemo(() => {
@@ -103,134 +108,143 @@ export function DistributedRepresentationDemo() {
     };
   }, []);
 
-  const layout: Partial<Layout> = {
-    ...lightThemeLayout2D,
-    title: undefined,
-    showlegend: false,
-    grid: {
-      rows: 1,
-      columns: 2,
-      pattern: "independent",
-      xgap: 0.12,
-    },
-    annotations: [
-      // Left title
-      {
-        text: "<b>What We Want: Interpretable</b>",
-        xref: "x domain",
-        yref: "paper",
-        x: 0.5,
-        y: 1.08,
-        showarrow: false,
-        font: { size: 15, color: "#059669" },
-        xanchor: "center",
+  // Side-by-side panels on wide screens; stacked vertically on phones where
+  // two panels plus their margin labels don't fit next to each other.
+  const layout: Partial<Layout> = useMemo(() => {
+    const titleFont = isNarrow ? 12 : 15;
+    const labelFont = isNarrow ? 11 : 13;
+    // On narrow screens the titles are wider than the plot region, so center
+    // them on the full paper width instead of the (margin-squeezed) x domain.
+    const titleXref = isNarrow ? "paper" : undefined;
+
+    return {
+      ...lightThemeLayout2D,
+      title: undefined,
+      showlegend: false,
+      annotations: [
+        // Panel titles
+        {
+          text: "<b>What We Want: Interpretable</b>",
+          xref: titleXref ?? "x domain",
+          yref: "y domain",
+          x: 0.5,
+          y: 1.12,
+          showarrow: false,
+          font: { size: titleFont, color: "#059669" },
+          xanchor: "center",
+        },
+        {
+          text: "<b>What Gradient Descent Creates: Entangled</b>",
+          xref: titleXref ?? "x2 domain",
+          yref: "y2 domain",
+          x: 0.5,
+          y: 1.12,
+          showarrow: false,
+          font: { size: titleFont, color: "#B2182B" },
+          xanchor: "center",
+        },
+        // Left axis labels
+        ...weights.map((w, i) => ({
+          text: `<b>${w}</b>`,
+          xref: "x" as const,
+          yref: "y" as const,
+          x: -0.05,
+          y: i,
+          showarrow: false,
+          font: { size: labelFont, color: colors[i] },
+          xanchor: "right" as const,
+        })),
+        ...features.map((f, i) => ({
+          text: `<b>${f}</b>`,
+          xref: "x" as const,
+          yref: "y" as const,
+          x: 1.05,
+          y: i,
+          showarrow: false,
+          font: { size: labelFont, color: "#333" },
+          xanchor: "left" as const,
+        })),
+        // Right axis labels
+        ...weights.map((w, i) => ({
+          text: `<b>${w}</b>`,
+          xref: "x2" as const,
+          yref: "y2" as const,
+          x: -0.05,
+          y: i,
+          showarrow: false,
+          font: { size: labelFont, color: colors[i] },
+          xanchor: "right" as const,
+        })),
+        ...features.map((f, i) => ({
+          text: `<b>${f}</b>`,
+          xref: "x2" as const,
+          yref: "y2" as const,
+          x: 1.05,
+          y: i,
+          showarrow: false,
+          font: { size: labelFont, color: "#333" },
+          xanchor: "left" as const,
+        })),
+      ],
+      // First (interpretable) panel axes
+      xaxis: {
+        range: [-0.15, 1.15],
+        showgrid: false,
+        showticklabels: false,
+        zeroline: false,
+        domain: isNarrow ? [0, 1] : [0, 0.44],
       },
-      // Right title
-      {
-        text: "<b>What Gradient Descent Creates: Entangled</b>",
-        xref: "x2 domain",
-        yref: "paper",
-        x: 0.5,
-        y: 1.08,
-        showarrow: false,
-        font: { size: 15, color: "#B2182B" },
-        xanchor: "center",
+      yaxis: {
+        range: [-0.5, 3.5],
+        showgrid: false,
+        showticklabels: false,
+        zeroline: false,
+        domain: isNarrow ? [0.58, 0.96] : [0.1, 0.9],
       },
-      // Left axis labels
-      ...weights.map((w, i) => ({
-        text: `<b>${w}</b>`,
-        xref: "x" as const,
-        yref: "y" as const,
-        x: -0.05,
-        y: i,
-        showarrow: false,
-        font: { size: 13, color: colors[i] },
-        xanchor: "right" as const,
-      })),
-      ...features.map((f, i) => ({
-        text: `<b>${f}</b>`,
-        xref: "x" as const,
-        yref: "y" as const,
-        x: 1.05,
-        y: i,
-        showarrow: false,
-        font: { size: 13, color: "#333" },
-        xanchor: "left" as const,
-      })),
-      // Right axis labels
-      ...weights.map((w, i) => ({
-        text: `<b>${w}</b>`,
-        xref: "x2" as const,
-        yref: "y2" as const,
-        x: -0.05,
-        y: i,
-        showarrow: false,
-        font: { size: 13, color: colors[i] },
-        xanchor: "right" as const,
-      })),
-      ...features.map((f, i) => ({
-        text: `<b>${f}</b>`,
-        xref: "x2" as const,
-        yref: "y2" as const,
-        x: 1.05,
-        y: i,
-        showarrow: false,
-        font: { size: 13, color: "#333" },
-        xanchor: "left" as const,
-      })),
-    ],
-    // Left plot axes
-    xaxis: {
-      range: [-0.15, 1.15],
-      showgrid: false,
-      showticklabels: false,
-      zeroline: false,
-      domain: [0, 0.44],
-    },
-    yaxis: {
-      range: [-0.5, 3.5],
-      showgrid: false,
-      showticklabels: false,
-      zeroline: false,
-      domain: [0.1, 0.9],
-    },
-    // Right plot axes
-    xaxis2: {
-      range: [-0.15, 1.15],
-      showgrid: false,
-      showticklabels: false,
-      zeroline: false,
-      domain: [0.56, 1],
-      anchor: "y2",
-    },
-    yaxis2: {
-      range: [-0.5, 3.5],
-      showgrid: false,
-      showticklabels: false,
-      zeroline: false,
-      domain: [0.1, 0.9],
-      anchor: "x2",
-    },
-    margin: { l: 80, r: 80, t: 60, b: 40 },
-    height: 450,
-    plot_bgcolor: "rgba(0,0,0,0)",
-    paper_bgcolor: "#ffffff",
-  };
+      // Second (entangled) panel axes
+      xaxis2: {
+        range: [-0.15, 1.15],
+        showgrid: false,
+        showticklabels: false,
+        zeroline: false,
+        domain: isNarrow ? [0, 1] : [0.56, 1],
+        anchor: "y2",
+      },
+      yaxis2: {
+        range: [-0.5, 3.5],
+        showgrid: false,
+        showticklabels: false,
+        zeroline: false,
+        domain: isNarrow ? [0.04, 0.42] : [0.1, 0.9],
+        anchor: "x2",
+      },
+      margin: isNarrow
+        ? { l: 40, r: 90, t: 30, b: 10 }
+        : { l: 80, r: 80, t: 60, b: 40 },
+      height: isNarrow ? 640 : 450,
+      plot_bgcolor: "rgba(0,0,0,0)",
+      paper_bgcolor: "#ffffff",
+    };
+  }, [isNarrow]);
 
   return (
     <div className="space-y-6">
       {/* Main visualization */}
-      <div className="glass-panel p-6">
-        <Plot
-          data={[
-            ...visualizationData.interpretableTraces,
-            ...visualizationData.entangledTraces,
-          ]}
-          layout={layout}
-          config={{ displayModeBar: false, responsive: true }}
-          useResizeHandler
-          className="w-full"
-        />
+      <div className="glass-panel p-4 sm:p-6">
+        <div ref={plotContainerRef}>
+          {plotWidth > 0 && (
+            <Plot
+              data={[
+                ...visualizationData.interpretableTraces,
+                ...visualizationData.entangledTraces,
+              ]}
+              layout={layout}
+              config={{ displayModeBar: false, responsive: true }}
+              useResizeHandler
+              className="w-full"
+            />
+          )}
+        </div>
       </div>
 
       {/* Simple two-column explanation */}

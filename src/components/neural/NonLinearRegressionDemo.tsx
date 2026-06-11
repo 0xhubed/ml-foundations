@@ -47,6 +47,10 @@ export function NonLinearRegressionDemo() {
   const [showNeural, setShowNeural] = useState(false);
   const { ref: plotContainerRef, width: plotWidth } = usePlotContainerWidth();
 
+  // Match the 3D scene height to the container width so the chart stays
+  // roughly square on phones instead of a fixed 580px tower.
+  const plotHeight = Math.min(580, Math.max(340, plotWidth));
+
   const data = useMemo(() => generateNonLinearData(), []);
 
   // Linear fit (plane - will fail for non-linear surface)
@@ -293,7 +297,7 @@ export function NonLinearRegressionDemo() {
   plotData.push(dataTrace); // Always add data points last so they render on top
 
   return (
-    <div className="bg-white border border-[rgba(0,0,0,0.08)] rounded-xl p-6 shadow-sm">
+    <div className="bg-white border border-[rgba(0,0,0,0.08)] rounded-xl p-4 sm:p-6 shadow-sm">
       <div className="mb-6">
         <h3 className="text-xl font-semibold text-[color:var(--color-text-primary)] mb-2">
           Regression: Fitting a Complex 3D Surface
@@ -336,7 +340,7 @@ export function NonLinearRegressionDemo() {
             layout={layout3D}
             config={config}
             useResizeHandler
-            style={{ width: "100%", height: "580px" }}
+            style={{ width: "100%", height: `${plotHeight}px` }}
           />
         )}
       </div>

@@ -26,7 +26,7 @@ export function QKVIntuitionBuilder() {
       </p>
 
       {/* Step Navigation */}
-      <div className="mb-8 flex gap-4">
+      <div className="mb-8 flex flex-col sm:flex-row gap-2 sm:gap-4">
         {STEPS.map((step) => (
           <button
             key={step.id}

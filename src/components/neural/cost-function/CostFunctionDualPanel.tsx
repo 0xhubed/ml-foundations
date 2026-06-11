@@ -137,8 +137,7 @@ export function CostFunctionDualPanel() {
     const layout: Partial<Layout> = {
       ...lightThemeLayout2D,
       autosize: true,
-      height: 400,
-      margin: { l: 60, r: 20, t: 40, b: 60 },
+      margin: { l: 50, r: 20, t: 40, b: 50 },
       title: {
         text: "Predictions vs Actual",
         font: { size: 14 },
@@ -356,7 +355,7 @@ export function CostFunctionDualPanel() {
   };
 
   return (
-    <FullScreenCard className="glass-panel p-6" title="Interactive Cost Function Explorer">
+    <FullScreenCard className="glass-panel p-4 sm:p-6" title="Interactive Cost Function Explorer">
       {/* Mathematical Formula */}
       <div className="mb-6 bg-[rgba(107,140,174,0.08)] border border-[rgba(107,140,174,0.3)] rounded-lg p-4">
         <h4 className="text-sm font-semibold text-[color:var(--color-text-primary)] mb-3">
@@ -460,7 +459,7 @@ export function CostFunctionDualPanel() {
       </div>
 
       {/* Predictions plot */}
-      <div className="rounded-lg p-2">
+      <div className="rounded-lg p-2 h-[320px] sm:h-[400px]">
         <Plot
           data={predictionPlot.data}
           layout={predictionPlot.layout}
