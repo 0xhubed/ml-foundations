@@ -86,7 +86,7 @@ export function EmbeddingIntro() {
           The Semantic Map
         </h3>
         <p className="text-sm text-[color:var(--color-text-secondary)]">
-          Each word is a point in space. Click any word to see its two nearest neighbours — the
+          Each word is a point in space. Click any word to see its two nearest neighbours: the
           words the model treats as most similar.
         </p>
       </div>
@@ -142,7 +142,7 @@ export function EmbeddingIntro() {
           })}
         </svg>
         <p className="text-xs text-[color:var(--color-text-muted)] mt-2 text-center">
-          Nothing told the model what these words mean — it placed them by how they&apos;re used in
+          Nothing told the model what these words mean. It placed them by how they&apos;re used in
           text. Similar usage → nearby points.
         </p>
       </div>

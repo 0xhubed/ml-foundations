@@ -8,7 +8,7 @@ export function NetworkSimplificationIntro() {
     <div className="mb-12">
       {/* Multi-layer Network */}
       <div className="mb-10">
-        <h3 className="text-lg font-semibold text-[color:var(--color-text-primary)] mb-4" style={{ fontFamily: "var(--font-space-grotesk)" }}>
+        <h3 className="text-lg font-semibold text-[color:var(--color-text-primary)] mb-4">
           Real Neural Networks Are Complex
         </h3>
         <p className="section-body mb-6 max-w-3xl">
@@ -25,7 +25,7 @@ export function NetworkSimplificationIntro() {
       <div className="mb-10 p-6 bg-[rgba(107,140,174,0.08)] border border-[rgba(107,140,174,0.3)] rounded-lg max-w-4xl mx-auto">
         <div className="flex items-center gap-3 mb-4">
           <span className="text-3xl">→</span>
-          <h3 className="text-lg font-semibold text-[color:var(--color-text-primary)]" style={{ fontFamily: "var(--font-space-grotesk)" }}>
+          <h3 className="text-lg font-semibold text-[color:var(--color-text-primary)]">
             Simplifying to Understand Learning
           </h3>
         </div>
@@ -38,55 +38,32 @@ export function NetworkSimplificationIntro() {
       </div>
 
       {/* Simple Linear Model */}
-      <div className="max-w-4xl mx-auto rounded-xl border border-[rgba(107,140,174,0.2)] bg-gradient-to-br from-white to-[rgba(248,250,252,1)] p-6 shadow-lg">
-        <h3 className="text-center text-xs uppercase tracking-[0.25em] text-[color:var(--color-accent)] font-semibold mb-5">
+      <div className="glass-panel max-w-4xl mx-auto p-6">
+        <h3 className="text-sm font-semibold text-[color:var(--color-text-primary)] mb-4">
           The Simplest Neural Network: Linear Model
         </h3>
 
         {/* Linear model diagram */}
-        <svg viewBox="0 0 600 180" className="w-full max-w-2xl mx-auto mb-5" role="img" aria-label="Simple linear neural network">
+        {/* neural-network-viz opts out of the global circle-restyling rule in globals.css */}
+        <svg viewBox="0 0 600 180" className="neural-network-viz w-full max-w-2xl mx-auto mb-5" role="img" aria-label="Simple linear neural network">
           <defs>
-            {/* Gradient for input node */}
-            <linearGradient id="inputGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="rgba(6,182,212,0.25)" />
-              <stop offset="100%" stopColor="rgba(6,182,212,0.1)" />
-            </linearGradient>
-            {/* Gradient for output node */}
-            <linearGradient id="outputGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="rgba(139,92,246,0.25)" />
-              <stop offset="100%" stopColor="rgba(139,92,246,0.1)" />
-            </linearGradient>
-            {/* Gradient for linear layer */}
-            <linearGradient id="layerGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="rgba(15,76,129,0.12)" />
-              <stop offset="100%" stopColor="rgba(15,76,129,0.04)" />
-            </linearGradient>
-            {/* Arrow marker */}
-            <marker id="arrow-improved" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+            <marker id="arrow-linear-model" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
               <path d="M2,2 L10,6 L2,10 L4,6 Z" fill="#0F4C81" />
             </marker>
-            {/* Shadow filter */}
-            <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-              <feDropShadow dx="0" dy="2" stdDeviation="3" floodOpacity="0.1" />
-            </filter>
           </defs>
 
           {/* Input Node */}
-          <g filter="url(#shadow)">
-            <circle cx="90" cy="90" r="36" fill="url(#inputGradient)" stroke="#06B6D4" strokeWidth="2.5" />
-          </g>
+          <circle cx="90" cy="90" r="36" fill="rgba(107,140,174,0.12)" stroke="#6B8CAE" strokeWidth="2" />
           <text x="90" y="97" textAnchor="middle" fontSize="22" fill="#0F4C81" fontWeight="600" fontFamily="var(--font-space-grotesk)">x</text>
           <text x="90" y="145" textAnchor="middle" fontSize="13" fill="#64748B" fontWeight="500">Input</text>
 
           {/* Connection line with weight label */}
-          <line x1="130" y1="90" x2="205" y2="90" stroke="#0F4C81" strokeWidth="2.5" strokeDasharray="none" markerEnd="url(#arrow-improved)" />
+          <line x1="130" y1="90" x2="205" y2="90" stroke="#0F4C81" strokeWidth="2" markerEnd="url(#arrow-linear-model)" />
           <rect x="152" y="68" width="32" height="22" rx="4" fill="white" stroke="#0F4C81" strokeWidth="1.5" />
           <text x="168" y="84" textAnchor="middle" fontSize="14" fill="#0F4C81" fontWeight="700">w</text>
 
           {/* Linear Layer (rectangle) */}
-          <g filter="url(#shadow)">
-            <rect x="215" y="50" width="170" height="80" rx="12" fill="url(#layerGradient)" stroke="#0F4C81" strokeWidth="2" />
-          </g>
+          <rect x="215" y="50" width="170" height="80" rx="12" fill="rgba(15,76,129,0.06)" stroke="#0F4C81" strokeWidth="2" />
           <text x="300" y="85" textAnchor="middle" fontSize="20" fill="#0F4C81" fontWeight="700" fontFamily="var(--font-space-grotesk)">wx + b</text>
           <text x="300" y="108" textAnchor="middle" fontSize="11" fill="#64748B" fontWeight="500">(identity activation)</text>
           <text x="300" y="150" textAnchor="middle" fontSize="13" fill="#64748B" fontWeight="600">Linear Layer</text>
@@ -97,13 +74,11 @@ export function NetworkSimplificationIntro() {
           <line x1="300" y1="44" x2="300" y2="50" stroke="#0F4C81" strokeWidth="1.5" />
 
           {/* Arrow from Linear Layer to Output */}
-          <line x1="390" y1="90" x2="465" y2="90" stroke="#0F4C81" strokeWidth="2.5" markerEnd="url(#arrow-improved)" />
+          <line x1="390" y1="90" x2="465" y2="90" stroke="#0F4C81" strokeWidth="2" markerEnd="url(#arrow-linear-model)" />
 
           {/* Output Node */}
-          <g filter="url(#shadow)">
-            <circle cx="510" cy="90" r="36" fill="url(#outputGradient)" stroke="#8B5CF6" strokeWidth="2.5" />
-          </g>
-          <text x="510" y="97" textAnchor="middle" fontSize="22" fill="#8B5CF6" fontWeight="600" fontFamily="var(--font-space-grotesk)">ŷ</text>
+          <circle cx="510" cy="90" r="36" fill="rgba(255,200,87,0.15)" stroke="#FFC857" strokeWidth="2" />
+          <text x="510" y="97" textAnchor="middle" fontSize="22" fill="#B45309" fontWeight="600" fontFamily="var(--font-space-grotesk)">ŷ</text>
           <text x="510" y="145" textAnchor="middle" fontSize="13" fill="#64748B" fontWeight="500">Output</text>
         </svg>
 

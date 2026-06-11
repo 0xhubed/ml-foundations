@@ -83,25 +83,17 @@ export function AITimelineVisualizer() {
 
   const getColorClasses = (color: string) => {
     const colors: Record<string, { bg: string; border: string; text: string }> = {
-      cyan: { bg: 'bg-cyan-500', border: 'border-cyan-500', text: 'text-cyan-400' },
-      blue: { bg: 'bg-blue-500', border: 'border-blue-500', text: 'text-blue-400' },
-      purple: { bg: 'bg-purple-500', border: 'border-purple-500', text: 'text-purple-400' },
-      green: { bg: 'bg-green-500', border: 'border-green-500', text: 'text-green-400' },
-      orange: { bg: 'bg-orange-500', border: 'border-orange-500', text: 'text-orange-400' },
+      cyan: { bg: 'bg-cyan-500', border: 'border-cyan-500', text: 'text-cyan-600' },
+      blue: { bg: 'bg-blue-500', border: 'border-blue-500', text: 'text-blue-600' },
+      purple: { bg: 'bg-purple-500', border: 'border-purple-500', text: 'text-purple-600' },
+      green: { bg: 'bg-green-500', border: 'border-green-500', text: 'text-green-600' },
+      orange: { bg: 'bg-orange-500', border: 'border-orange-500', text: 'text-orange-600' },
     };
     return colors[color] || colors.cyan;
   };
 
   return (
     <div className="space-y-6">
-      {/* Timeline Title */}
-      <div className="glass-panel p-6 bg-gradient-to-r from-purple-500/10 to-cyan-500/10">
-        <h4 className="text-2xl font-semibold mb-2">The GPU Revolution: Timeline</h4>
-        <p className="text-gray-300">
-          How GPUs transformed AI from academic research to practical reality
-        </p>
-      </div>
-
       {/* Timeline Visualization */}
       <div className="relative">
         {/* Timeline Line */}
@@ -117,13 +109,10 @@ export function AITimelineVisualizer() {
               <div key={index} className="relative pl-20">
                 {/* Timeline Dot */}
                 <div
-                  className={`absolute left-4 top-6 w-9 h-9 rounded-full border-4 ${colors.border} bg-black
-                              flex items-center justify-center cursor-pointer transform transition-all
-                              ${isSelected ? 'scale-125 shadow-lg' : 'hover:scale-110'}`}
+                  className={`absolute left-4 top-6 w-9 h-9 rounded-full border-4 ${colors.border} bg-white
+                              flex items-center justify-center cursor-pointer transform transition-all shadow-sm
+                              ${isSelected ? 'scale-125 shadow-md' : 'hover:scale-110'}`}
                   onClick={() => setSelectedMilestone(isSelected ? null : index)}
-                  style={{
-                    boxShadow: isSelected ? `0 0 20px ${milestone.color}` : 'none',
-                  }}
                 >
                   <div className={`w-3 h-3 rounded-full ${colors.bg}`} />
                 </div>
@@ -138,39 +127,39 @@ export function AITimelineVisualizer() {
                   <div className="flex justify-between items-start mb-3">
                     <div>
                       <div className={`text-sm font-semibold ${colors.text}`}>{milestone.year}</div>
-                      <h5 className="text-xl font-bold">{milestone.model}</h5>
+                      <h5 className="text-xl font-bold text-[color:var(--color-text-primary)]">{milestone.model}</h5>
                     </div>
                     <div className="text-right">
-                      <div className="text-sm text-gray-400">Parameters</div>
-                      <div className="text-lg font-bold">{milestone.params}</div>
+                      <div className="text-sm text-[color:var(--color-text-muted)]">Parameters</div>
+                      <div className="text-lg font-bold text-[color:var(--color-text-primary)]">{milestone.params}</div>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                     <div>
-                      <div className="text-gray-400">GPUs</div>
-                      <div className="font-semibold">
+                      <div className="text-[color:var(--color-text-muted)]">GPUs</div>
+                      <div className="font-semibold text-[color:var(--color-text-primary)]">
                         {milestone.gpuCount} × {milestone.gpuType}
                       </div>
                     </div>
                     <div>
-                      <div className="text-gray-400">Training Time</div>
-                      <div className="font-semibold">{milestone.trainingTime}</div>
+                      <div className="text-[color:var(--color-text-muted)]">Training Time</div>
+                      <div className="font-semibold text-[color:var(--color-text-primary)]">{milestone.trainingTime}</div>
                     </div>
                     <div>
-                      <div className="text-gray-400">Cost</div>
-                      <div className="font-semibold">{milestone.trainingCost}</div>
+                      <div className="text-[color:var(--color-text-muted)]">Cost</div>
+                      <div className="font-semibold text-[color:var(--color-text-primary)]">{milestone.trainingCost}</div>
                     </div>
                     <div>
-                      <div className="text-gray-400">CPU Equivalent</div>
-                      <div className="font-semibold text-red-400">{milestone.cpuEquivalent}</div>
+                      <div className="text-[color:var(--color-text-muted)]">CPU Equivalent</div>
+                      <div className="font-semibold text-red-600">{milestone.cpuEquivalent}</div>
                     </div>
                   </div>
 
                   {isSelected && (
-                    <div className="mt-4 pt-4 border-t border-gray-700">
-                      <div className="text-sm text-gray-400 mb-1">Impact</div>
-                      <div className="text-gray-200">{milestone.impact}</div>
+                    <div className="mt-4 pt-4 border-t border-[rgba(0,0,0,0.1)]">
+                      <div className="text-sm text-[color:var(--color-text-muted)] mb-1">Impact</div>
+                      <div className="text-[color:var(--color-text-primary)]">{milestone.impact}</div>
                     </div>
                   )}
                 </div>
@@ -181,30 +170,30 @@ export function AITimelineVisualizer() {
       </div>
 
       {/* Key Insight */}
-      <div className="glass-panel p-6 bg-gradient-to-r from-blue-500/5 to-purple-500/5 border-l-4 border-blue-500">
-        <h5 className="text-lg font-semibold mb-3">The GPU Revolution</h5>
-        <div className="space-y-3 text-gray-300">
+      <div className="glass-panel p-6 border-l-4 border-blue-500">
+        <h5 className="text-lg font-semibold text-[color:var(--color-text-primary)] mb-3">The GPU Revolution</h5>
+        <div className="space-y-3 text-sm text-[color:var(--color-text-secondary)]">
           <p>
-            Modern transformers like GPT-4, Claude, and Gemini would be <strong className="text-red-400">practically
-            impossible</strong> to train on CPUs. The 1000-10,000x speedup isn't just about convenience—it's the
+            Modern transformers like GPT-4, Claude, and Gemini would be <strong className="text-red-600">practically
+            impossible</strong> to train on CPUs. The 1000–10,000x speedup isn&apos;t just about convenience — it&apos;s the
             difference between:
           </p>
-          <ul className="space-y-2 ml-6">
+          <ul className="space-y-2 ml-2">
             <li className="flex items-start gap-2">
-              <span className="text-green-400 mt-1"></span>
+              <span aria-hidden className="text-[#059669] mt-0.5">✓</span>
               <span>Training in weeks vs. decades</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-green-400 mt-1"></span>
+              <span aria-hidden className="text-[#059669] mt-0.5">✓</span>
               <span>Iterating on ideas vs. waiting years for results</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-green-400 mt-1"></span>
+              <span aria-hidden className="text-[#059669] mt-0.5">✓</span>
               <span>Democratized AI research vs. only the wealthiest organizations participating</span>
             </li>
           </ul>
-          <p className="pt-3 border-t border-gray-700">
-            <strong>Bottom line:</strong> GPUs didn't just make AI faster—they made modern AI <em>possible</em>.
+          <p className="pt-3 border-t border-[rgba(0,0,0,0.1)]">
+            <strong className="text-[color:var(--color-text-primary)]">Bottom line:</strong> GPUs didn&apos;t just make AI faster — they made modern AI <em>possible</em>.
           </p>
         </div>
       </div>

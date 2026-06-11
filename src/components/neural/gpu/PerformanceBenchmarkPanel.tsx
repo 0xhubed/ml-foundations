@@ -54,7 +54,7 @@ export function PerformanceBenchmarkPanel() {
           className={`px-6 py-2 rounded-md font-semibold transition-all ${
             activeTab === 'training'
               ? 'bg-blue-500 text-white'
-              : 'text-gray-400 hover:text-white'
+              : 'text-[color:var(--color-text-secondary)] hover:text-[color:var(--color-text-primary)]'
           }`}
         >
           Training
@@ -64,7 +64,7 @@ export function PerformanceBenchmarkPanel() {
           className={`px-6 py-2 rounded-md font-semibold transition-all ${
             activeTab === 'inference'
               ? 'bg-blue-500 text-white'
-              : 'text-gray-400 hover:text-white'
+              : 'text-[color:var(--color-text-secondary)] hover:text-[color:var(--color-text-primary)]'
           }`}
         >
           Inference
@@ -81,8 +81,8 @@ export function PerformanceBenchmarkPanel() {
               onClick={() => setSelectedModel(size)}
               className={`px-4 py-2 rounded-lg font-semibold transition-all ${
                 selectedModel === size
-                  ? 'bg-purple-500 text-white shadow-lg shadow-purple-500/50'
-                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                  ? 'bg-purple-500 text-white'
+                  : 'bg-gray-100 text-[color:var(--color-text-secondary)] hover:bg-gray-200 border border-[rgba(0,0,0,0.1)]'
               }`}
             >
               {size}
@@ -100,24 +100,24 @@ export function PerformanceBenchmarkPanel() {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-gray-700">
+                <tr className="border-b border-[rgba(0,0,0,0.2)]">
                   <th className="text-left py-3 px-4">Hardware</th>
                   <th className="text-center py-3 px-4">Training Time</th>
                   <th className="text-center py-3 px-4">Use Case</th>
                 </tr>
               </thead>
-              <tbody className="text-gray-300">
-                <tr className="border-b border-gray-800">
+              <tbody className="text-[color:var(--color-text-secondary)]">
+                <tr className="border-b border-[rgba(0,0,0,0.08)]">
                   <td className="py-3 px-4 font-semibold text-orange-400">CPU (16-core Xeon)</td>
                   <td className="text-center py-3 px-4">{formatTime(currentBenchmarks.cpu)}</td>
                   <td className="text-center py-3 px-4 text-red-400">Not practical</td>
                 </tr>
-                <tr className="border-b border-gray-800">
+                <tr className="border-b border-[rgba(0,0,0,0.08)]">
                   <td className="py-3 px-4 font-semibold text-cyan-400">GPU (NVIDIA RTX 4090)</td>
                   <td className="text-center py-3 px-4">{formatTime(currentBenchmarks.rtx4090)}</td>
                   <td className="text-center py-3 px-4 text-yellow-400">Research/Development</td>
                 </tr>
-                <tr className="border-b border-gray-800">
+                <tr className="border-b border-[rgba(0,0,0,0.08)]">
                   <td className="py-3 px-4 font-semibold text-cyan-400">GPU (NVIDIA A100)</td>
                   <td className="text-center py-3 px-4">{formatTime(currentBenchmarks.a100)}</td>
                   <td className="text-center py-3 px-4 text-green-400">Enterprise</td>
@@ -132,7 +132,7 @@ export function PerformanceBenchmarkPanel() {
           </div>
           <div className="mt-4 p-4 bg-green-500/10 border border-green-500/30 rounded-lg">
             <div className="text-center">
-              <span className="text-sm text-gray-400">Speedup with H100: </span>
+              <span className="text-sm text-[color:var(--color-text-muted)]">Speedup with H100: </span>
               <span className="text-2xl font-bold text-green-400">{speedup}x faster</span>
             </div>
           </div>
@@ -145,27 +145,27 @@ export function PerformanceBenchmarkPanel() {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-gray-700">
+                <tr className="border-b border-[rgba(0,0,0,0.2)]">
                   <th className="text-left py-3 px-4">Hardware</th>
                   <th className="text-center py-3 px-4">Tokens/Second</th>
                   <th className="text-center py-3 px-4">Response Time (100 tokens)</th>
                   <th className="text-center py-3 px-4">Use Case</th>
                 </tr>
               </thead>
-              <tbody className="text-gray-300">
-                <tr className="border-b border-gray-800">
+              <tbody className="text-[color:var(--color-text-secondary)]">
+                <tr className="border-b border-[rgba(0,0,0,0.08)]">
                   <td className="py-3 px-4 font-semibold text-orange-400">CPU</td>
                   <td className="text-center py-3 px-4">{currentBenchmarks.cpu} t/s</td>
                   <td className="text-center py-3 px-4">{Math.round(100 / currentBenchmarks.cpu)}s</td>
                   <td className="text-center py-3 px-4 text-red-400">Not practical</td>
                 </tr>
-                <tr className="border-b border-gray-800">
+                <tr className="border-b border-[rgba(0,0,0,0.08)]">
                   <td className="py-3 px-4 font-semibold text-cyan-400">GPU (RTX 4090)</td>
                   <td className="text-center py-3 px-4">{currentBenchmarks.rtx4090} t/s</td>
                   <td className="text-center py-3 px-4">{(100 / currentBenchmarks.rtx4090).toFixed(1)}s</td>
                   <td className="text-center py-3 px-4 text-yellow-400">Local development</td>
                 </tr>
-                <tr className="border-b border-gray-800">
+                <tr className="border-b border-[rgba(0,0,0,0.08)]">
                   <td className="py-3 px-4 font-semibold text-cyan-400">GPU (A100)</td>
                   <td className="text-center py-3 px-4">{currentBenchmarks.a100} t/s</td>
                   <td className="text-center py-3 px-4">{(100 / currentBenchmarks.a100).toFixed(2)}s</td>
@@ -182,7 +182,7 @@ export function PerformanceBenchmarkPanel() {
           </div>
           <div className="mt-4 p-4 bg-green-500/10 border border-green-500/30 rounded-lg">
             <div className="text-center">
-              <span className="text-sm text-gray-400">Speedup with H100: </span>
+              <span className="text-sm text-[color:var(--color-text-muted)]">Speedup with H100: </span>
               <span className="text-2xl font-bold text-green-400">{speedup}x faster</span>
             </div>
           </div>

@@ -42,7 +42,7 @@ const STEPS: StepConfig[] = [
     id: 'output',
     label: 'Feed-Forward & Output',
     shortLabel: '4. Output',
-    color: 'rgba(34,197,94,1)',
+    color: 'rgba(74,124,89,1)',
     description: 'Process and predict next token',
   },
 ];
@@ -69,18 +69,6 @@ export function TransformerPipelineSection() {
 
   return (
     <div className="space-y-8">
-      {/* Section Header */}
-      <div className="text-center">
-        <span className="badge">How Transformers Work</span>
-        <h2 className="section-heading mt-4 mb-4">
-          The Transformer Pipeline
-        </h2>
-        <p className="section-body max-w-3xl mx-auto">
-          Every time you use ChatGPT, Claude, or any modern AI, your text flows through these four stages.
-          Click through to understand each step.
-        </p>
-      </div>
-
       {/* Pipeline Progress Bar */}
       <div className="bg-white border-2 border-[var(--color-border)] rounded-xl p-4 shadow-sm">
         {/* Visual Pipeline */}

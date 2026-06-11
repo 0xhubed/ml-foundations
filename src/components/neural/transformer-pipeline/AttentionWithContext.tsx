@@ -173,7 +173,7 @@ export function AttentionWithContext() {
             <p className="text-sm text-[var(--color-text-secondary)] mb-4">
               Attention lets every token look at every other token, but this creates O(n^2) complexity.
               The <strong className="text-[var(--color-text-primary)]">context window</strong> is the maximum
-              number of tokens the model can see at once - a hard limit set during training.
+              number of tokens the model can see at once, a hard limit set during training.
             </p>
 
             {/* Visual Representation */}
@@ -271,7 +271,7 @@ export function AttentionWithContext() {
               </div>
               <p className="text-sm text-amber-800">
                 Agents need to remember conversation history, tool outputs, and task state.
-                With a 200K token window, that&apos;s ~400 pages of context - but for long-running
+                With a 200K token window, that&apos;s ~400 pages of context, but for long-running
                 tasks, even that fills up. This is why <strong className="text-amber-900">memory systems</strong> and
                 <strong className="text-amber-900"> context engineering</strong> are essential.
               </p>

@@ -30,15 +30,14 @@ const chapter = getChapterDefinition("neural");
  *    1.  Linear Regression & Cost Function   (what a model is, how we score it)
  *    2.  Understanding Derivatives           (the slope = which way is downhill)
  *    3.  Gradient Descent                    (follow the slope to minimize cost)
- *    4.  Backpropagation                     (compute the gradients efficiently)
+ *    4.  Backpropagation                     (scale up to a network, compute the gradients efficiently)
  *    5.  Why Gradient Descent Hides ...      (aside: interpretability)
- *    6.  Activation Functions                (non-linearity)
- *    7.  When Linearity Fails                (the payoff of non-linearity)
- *    8.  The Language Problem                (why sequences are hard)
+ *    6.  Activation Functions                (non-linearity + the linear-failure payoff demo)
+ *    7.  The Language Problem                (why sequences are hard)
+ *    8.  Embeddings                          (words -> vectors, prerequisite for any sequence model)
  *    9.  RNN Architecture                    (first attempt at sequences)
- *    10. Embeddings                          (words -> vectors)
- *    11. Transformer Architecture Details    (attention solves it)
- *    12. GPU Acceleration                    (why it became practical)
+ *    10. Transformer Architecture Details    (attention solves it)
+ *    11. GPU Acceleration                    (why it became practical)
  *    +   The Transformer Pipeline walkthrough (synthesis)
  */
 
@@ -89,12 +88,12 @@ export default function HomePage() {
             <CostFunctionDualPanel />
           </div>
 
-          <SectionTakeaway nextHref="derivatives" nextLabel="Understanding Derivatives">
+          <SectionTakeaway>
             A model is just a function with adjustable parameters (<InlineMath math="w" /> and{" "}
             <InlineMath math="b" />), and the cost function turns &quot;how good is this model?&quot;
             into a single number to minimize. Learning is the search for the parameters that make that
-            number as small as possible — and to search efficiently we need to know which way is
-            &quot;downhill&quot; on the cost. That direction is what a derivative measures.
+            number as small as possible. To search efficiently, we need to know which way is
+            &quot;downhill&quot; on the cost, and that direction is what a derivative measures.
           </SectionTakeaway>
         </div>
       </section>
@@ -110,7 +109,7 @@ export default function HomePage() {
               Understanding Derivatives
             </h2>
             <p className="section-body">
-              A derivative measures how a function changes as its input changes — the slope at a
+              A derivative measures how a function changes as its input changes: the slope at a
               point. Since our goal is to make the cost smaller, the slope is precisely what tells us
               which way to move. Here we build the idea up from one dimension to the many dimensions a
               real model lives in.
@@ -124,8 +123,8 @@ export default function HomePage() {
             </h3>
             <TryIt>
               Move the point along the curve and watch the tangent line. Where the curve is steep the
-              derivative is large; at the very bottom of a dip it&apos;s zero — exactly the kind of
-              point we&apos;re hunting for when we minimize cost.
+              derivative is large; at the very bottom of a dip it&apos;s zero. That is exactly the
+              kind of point we&apos;re hunting for when we minimize cost.
             </TryIt>
             <DerivativeExplorer1D />
           </div>
@@ -138,8 +137,8 @@ export default function HomePage() {
             <p className="section-body mb-4 max-w-3xl">
               Real models have many parameters, not one. A <strong>partial derivative</strong> asks
               how the cost changes when you nudge a single parameter and hold the rest fixed. Stack
-              one partial derivative per parameter together and you get the <strong>gradient</strong> —
-              the full downhill direction.
+              one partial derivative per parameter together and you get the{" "}
+              <strong>gradient</strong>: the full downhill direction.
             </p>
             <TryIt>
               Adjust one variable at a time and see how its partial derivative is measured
@@ -149,8 +148,8 @@ export default function HomePage() {
             <PartialDerivativeBreakdown />
           </div>
 
-          <SectionTakeaway nextHref="gradient-descent" nextLabel="Gradient Descent">
-            The gradient is a vector of partial derivatives — one slope per parameter — pointing in
+          <SectionTakeaway>
+            The gradient is a vector of partial derivatives, one slope per parameter, pointing in
             the direction in which cost increases fastest. Flip it around and you have the direction
             of steepest <em>decrease</em>. Next we use exactly that to drive the cost down, step by
             step: gradient descent.
@@ -181,14 +180,14 @@ export default function HomePage() {
           <div className="mb-8">
             <TryIt>
               Pick a starting point on the cost surface and step downhill. Try a small learning rate
-              (slow but steady) versus a large one (fast, but it can overshoot the valley) — the step
+              (slow but steady) versus a large one (fast, but it can overshoot the valley). The step
               size is the single most important knob in training.
             </TryIt>
             <GradientDescentExplorer />
           </div>
 
-          <SectionTakeaway nextHref="backpropagation" nextLabel="Backpropagation">
-            Gradient descent repeats one move — compute the gradient, step the opposite way — until it
+          <SectionTakeaway>
+            Gradient descent repeats one move (compute the gradient, step the opposite way) until it
             settles in a low point, with the learning rate setting the step size. On a model with
             millions of parameters, though, computing that gradient naively would be hopelessly slow.
             The algorithm that makes it efficient is backpropagation.
@@ -207,26 +206,66 @@ export default function HomePage() {
               Backpropagation
             </h2>
             <p className="section-body">
-              We need the gradient for every parameter, but a network can have billions of them.
-              Backpropagation is the algorithm that computes all of those gradients efficiently. It
-              uses the chain rule to propagate the error <strong>backward</strong> from output to
-              input, calculating how much each parameter contributed to the final error — in one
-              sweep rather than one parameter at a time.
+              So far we&apos;ve trained a model with exactly two parameters. Real neural networks
+              have millions or even billions. Before we can train one, we need to see what a
+              network actually is, and then meet the algorithm that makes computing all of those
+              gradients feasible: backpropagation.
             </p>
           </div>
 
-          <TryIt>
-            Step through the forward pass (prediction) and then the backward pass. Watch the error
-            flow backward layer by layer, and see how each weight&apos;s share of the blame — its
-            gradient — is assembled from the layers in front of it.
-          </TryIt>
-          <BackpropagationVisualizer />
+          {/* From One Parameter to a Network */}
+          <div className="mb-8">
+            <h3 className="text-xl font-semibold text-[color:var(--color-text-primary)] mb-4">
+              From One Parameter to a Network
+            </h3>
+            <p className="section-body mb-4 max-w-3xl">
+              A <strong>neuron</strong> is just our familiar pattern with more inputs: it multiplies
+              each input by its own weight, adds them up with a bias:{" "}
+              <InlineMath math="w_1 x_1 + w_2 x_2 + \ldots + b" />. A <strong>layer</strong> is many
+              neurons side by side, each reading the same inputs but with its own weights. A{" "}
+              <strong>network</strong> stacks layers, so each layer&apos;s outputs become the next
+              layer&apos;s inputs. That&apos;s the whole construction: the complex diagram from the
+              first section is nothing more than this pattern repeated.
+            </p>
+            <p className="section-body mb-4 max-w-3xl">
+              Crucially, <strong>nothing about learning changes</strong>: the network is still a
+              function with adjustable parameters, the cost function still scores it, and gradient
+              descent still follows the slopes downhill. There are just millions of slopes now
+              instead of two.
+            </p>
+            <p className="section-body mb-4 max-w-3xl">
+              And that&apos;s the catch. A weight deep inside the network affects the cost only
+              indirectly, through every layer after it. Measuring its slope naively (nudge the
+              weight, re-run the whole network, see how the cost moved) would mean billions of
+              runs for a single training step. We need a way to get <em>every</em> gradient from{" "}
+              <em>one</em> run.
+            </p>
+          </div>
 
-          <SectionTakeaway nextHref="distributed-representations" nextLabel="Why Gradient Descent Hides How Models Think">
+          {/* The Backward Pass */}
+          <div className="mb-8">
+            <h3 className="text-xl font-semibold text-[color:var(--color-text-primary)] mb-4">
+              The Backward Pass
+            </h3>
+            <p className="section-body mb-4 max-w-3xl">
+              Backpropagation is that way. It uses the chain rule to propagate the error{" "}
+              <strong>backward</strong> from output to input, calculating how much each parameter
+              contributed to the final error: all of the gradients in one sweep rather than one
+              parameter at a time.
+            </p>
+            <TryIt>
+              Step through the forward pass (prediction) and then the backward pass. Watch the error
+              flow backward layer by layer, and see how each weight&apos;s share of the blame, its
+              gradient, is assembled from the layers in front of it.
+            </TryIt>
+            <BackpropagationVisualizer />
+          </div>
+
+          <SectionTakeaway>
             Backpropagation is the chain rule applied across a network: run the input forward to get a
             prediction and error, then push that error backward to find every parameter&apos;s
             gradient at once. Forward pass, backprop, and a gradient-descent step together form the
-            loop that trains every modern network. That loop is powerful — but it has a curious side
+            loop that trains every modern network. That loop is powerful, but it has a curious side
             effect on what the trained network looks like inside.
           </SectionTakeaway>
         </div>
@@ -244,8 +283,8 @@ export default function HomePage() {
             </h2>
             <p className="section-body max-w-4xl">
               A short detour on a consequence of everything so far. Gradient descent produces powerful
-              but <strong className="text-[color:var(--color-accent)]">opaque</strong> solutions —
-              let&apos;s see why this way of learning makes models so hard to interpret.
+              but <strong className="text-[color:var(--color-accent)]">opaque</strong> solutions.
+              Let&apos;s see why this way of learning makes models so hard to interpret.
             </p>
           </div>
 
@@ -261,9 +300,9 @@ export default function HomePage() {
 
             {/* Mathematical Insight Box */}
             <div className="mb-6 p-5 bg-[rgba(178,24,43,0.08)] border border-[rgba(178,24,43,0.3)] rounded-lg max-w-3xl mx-auto">
-              <div className="text-sm font-semibold text-[rgba(178,24,43,1)] mb-3">
+              <h4 className="text-sm font-semibold text-[rgba(178,24,43,1)] mb-3">
                 The Gradient Depends on All Parameters
-              </div>
+              </h4>
               <p className="text-sm text-[color:var(--color-text-secondary)] mb-4">
                 Each partial derivative <InlineMath math="\frac{\partial L}{\partial w_i}" /> answers:{" "}
                 <em>&quot;How should <InlineMath math="w_i" /> change?&quot;</em>
@@ -288,25 +327,25 @@ export default function HomePage() {
             <DistributedRepresentationDemo />
           </div>
 
-          <SectionTakeaway nextHref="activation-functions" nextLabel="Activation Functions">
+          <SectionTakeaway>
             Because gradient descent updates every parameter together, knowledge ends up spread across
-            the whole network — a <em>distributed representation</em>. That&apos;s what makes these
+            the whole network: a <em>distributed representation</em>. That&apos;s what makes these
             models powerful but hard to interpret: there&apos;s rarely a single neuron you can point
-            to. Every network we&apos;ve described so far is built from linear layers, though — and the
+            to. Every network we&apos;ve described so far is built from linear layers, though. The
             piece that gives them their real expressive power is the non-linearity between layers.
           </SectionTakeaway>
         </div>
       </section>
 
       {/* ========================================
-          FOUNDATION 6: ACTIVATION FUNCTIONS
+          FOUNDATION 6: ACTIVATION FUNCTIONS & WHEN LINEARITY FAILS
       ======================================== */}
       <section id="activation-functions" className="section-boundary">
         <div className="mx-auto w-full max-w-[var(--max-width)] px-6 lg:px-8">
           <div className="mb-8">
             <span className="badge">Foundations 6</span>
             <h2 className="section-heading mt-4">
-              Activation Functions
+              Activation Functions: Why Non-Linearity Matters
             </h2>
             <p className="section-body">
               Activation functions introduce <strong>non-linearity</strong> into neural networks.
@@ -317,70 +356,57 @@ export default function HomePage() {
             </p>
           </div>
 
-          <TryIt>
-            Compare the shapes of ReLU, sigmoid, and tanh. Notice ReLU&apos;s simple kink at zero —
-            cheap to compute and, crucially, it doesn&apos;t flatten out for large positive inputs
-            the way sigmoid does, which helps gradients survive the trip back through deep networks.
-          </TryIt>
-          <ActivationFunctionExplorer />
-
-          <SectionTakeaway nextHref="when-linearity-fails" nextLabel="When Linearity Fails">
-            Activation functions are the bend between layers. Without them a deep network collapses
-            into a single line; with them it can approximate almost any shape. Next we make that
-            payoff concrete by watching a purely linear model fail on a curved problem where a
-            non-linear network succeeds.
-          </SectionTakeaway>
-        </div>
-      </section>
-
-      {/* ========================================
-          FOUNDATION 7: WHEN LINEARITY FAILS
-      ======================================== */}
-      <section id="when-linearity-fails" className="section-boundary">
-        <div className="mx-auto w-full max-w-[var(--max-width)] px-6 lg:px-8">
+          {/* The shapes */}
           <div className="mb-8">
-            <span className="badge">Foundations 7</span>
-            <h2 className="section-heading mt-4">
-              When Linearity Fails
-            </h2>
-            <p className="section-body">
-              We&apos;ve claimed non-linearity matters — now let&apos;s see it. Linear regression can
-              only fit flat planes. What happens when the real relationship has a complex 3D shape
-              like a saddle? Compare how a linear model fails while a neural network with activation
-              functions captures the curve.
-            </p>
+            <TryIt>
+              Compare the linear function with ReLU. Notice ReLU&apos;s simple kink at zero. That
+              single bend is cheap to compute, yet it&apos;s all a network needs to stop collapsing
+              into one straight line.
+            </TryIt>
+            <ActivationFunctionExplorer />
           </div>
 
-          <TryIt>
-            Look at the residual error for the linear fit on the curved surface, then switch to the
-            neural network. The flat plane simply can&apos;t reach the peaks and valleys; the
-            non-linear model wraps around them.
-          </TryIt>
-          <NonLinearRegressionDemo />
+          {/* When linearity fails: the payoff */}
+          <div className="mb-8">
+            <h3 className="text-xl font-semibold text-[color:var(--color-text-primary)] mb-4">
+              When Linearity Fails: Seeing the Payoff
+            </h3>
+            <p className="section-body mb-4 max-w-3xl">
+              We&apos;ve claimed non-linearity matters. Now let&apos;s see it. Linear regression can
+              only fit flat planes. What happens when the real relationship has a complex 3D shape
+              like a saddle?
+            </p>
+            <TryIt>
+              Look at the residual error for the linear fit on the curved surface, then switch to the
+              neural network. The flat plane simply can&apos;t reach the peaks and valleys; the
+              non-linear model wraps around them.
+            </TryIt>
+            <NonLinearRegressionDemo />
+          </div>
 
-          <SectionTakeaway nextHref="language-problem" nextLabel="The Language Problem">
-            For data with curved structure, a linear model hits a hard ceiling that no amount of
-            training can break — stacking layers with non-linear activations is what breaks through it.
-            So far, though, every input has been a fixed set of numbers. Language isn&apos;t like that,
-            and it breaks our assumptions in ways worth understanding before we change the
-            architecture.
+          <SectionTakeaway>
+            Activation functions are the bend between layers. Without them a deep network collapses
+            into a single line and hits a hard ceiling that no amount of training can break; with
+            them it can wrap around almost any shape. So far, though, every input has been a fixed
+            set of numbers. Language isn&apos;t like that, and it breaks our assumptions in ways
+            worth understanding before we change the architecture.
           </SectionTakeaway>
         </div>
       </section>
 
       {/* ========================================
-          FOUNDATION 8: THE LANGUAGE PROBLEM
+          FOUNDATION 7: THE LANGUAGE PROBLEM
       ======================================== */}
       <section id="language-problem" className="section-boundary">
         <div className="mx-auto w-full max-w-[var(--max-width)] px-6 lg:px-8">
           <div className="mb-8">
-            <span className="badge">Foundations 8</span>
+            <span className="badge">Foundations 7</span>
             <h2 className="section-heading mt-4">
               The Language Problem
             </h2>
             <p className="section-body">
-              Language presents challenges that the models we&apos;ve built so far — which take a
-              fixed set of numbers and produce an answer — simply cannot handle. The three problems
+              Language presents challenges that the models we&apos;ve built so far, which take a
+              fixed set of numbers and produce an answer, simply cannot handle. The three problems
               below (long-range memory, context-dependent meaning, and word order) are what every
               language model must solve, and they drive the architectures in the rest of this page.
             </p>
@@ -388,11 +414,53 @@ export default function HomePage() {
 
           <LanguageProblem />
 
-          <SectionTakeaway nextHref="rnn-architecture" nextLabel="RNN Architecture">
+          <SectionTakeaway>
             To understand language a model must remember distant words, resolve meaning from context,
             and respect word order. A plain feed-forward network sees a fixed-size input all at once
-            and has no natural way to do any of this. The first architecture built to read a sequence
-            instead — one word at a time, carrying a memory forward — was the RNN.
+            and has no natural way to do any of this. But before any architecture can even attempt
+            it, there&apos;s a more basic gap to close: networks compute with numbers, and language
+            is words. The first step is turning words into vectors: embeddings.
+          </SectionTakeaway>
+        </div>
+      </section>
+
+      {/* ========================================
+          FOUNDATION 8: EMBEDDINGS
+      ======================================== */}
+      <section id="embeddings" className="section-boundary">
+        <div className="mx-auto w-full max-w-[var(--max-width)] px-6 lg:px-8">
+          <div className="mb-8">
+            <span className="badge">Foundations 8</span>
+            <h2 className="section-heading mt-4">
+              Embeddings: Turning Words into Vectors
+            </h2>
+            <p className="section-body">
+              A neural network only understands numbers, so the first thing any language model does
+              is convert text into them. Text is first split into{" "}
+              <strong>tokens</strong> (whole words or word pieces, so &quot;unbelievable&quot; might
+              become &quot;un&quot; + &quot;believ&quot; + &quot;able&quot;), and each token is then
+              mapped to a list of numbers called an{" "}
+              <strong className="text-[color:var(--color-accent)]">embedding</strong>. Crucially these
+              vectors are <strong>learned</strong> during training, so words used in similar ways end
+              up close together: the model discovers on its own that &quot;cat&quot; and &quot;dog&quot;
+              are more alike than &quot;cat&quot; and &quot;Tuesday.&quot; Every sequence model in the
+              rest of this page operates on these vectors rather than on raw text.
+            </p>
+          </div>
+
+          <TryIt>
+            Click a word to see its nearest neighbours light up. Notice how words with related
+            meanings sit close together, even though nothing told the model their definitions. It
+            inferred the geometry from how the words are used.
+          </TryIt>
+          <EmbeddingIntro />
+
+          <SectionTakeaway>
+            An embedding turns each word into a point in a high-dimensional space where distance
+            reflects similarity of meaning. This is the bridge from language to math: once words are
+            vectors, a network can compare, combine, and transform them. Now we can return to the
+            architecture question: how should a network read a <em>sequence</em> of these vectors?
+            The first serious answer was the RNN.
           </SectionTakeaway>
         </div>
       </section>
@@ -409,9 +477,9 @@ export default function HomePage() {
             </h2>
             <p className="section-body">
               Recurrent Neural Networks (RNNs) were the first serious answer to the language problem.
-              They process a sequence one element at a time, carrying a <strong>hidden state</strong>{" "}
-              forward as a running memory of what came before. It&apos;s an elegant idea — but it has
-              two costly weaknesses: information from early in a long sequence tends to fade (the
+              They read a sequence of word vectors one element at a time, carrying a{" "}
+              <strong>hidden state</strong> forward as a running memory of what came before.
+              It&apos;s an elegant idea, but it has two costly weaknesses: information from early in a long sequence tends to fade (the
               vanishing-gradient problem), and because each step depends on the previous one, the work
               can&apos;t be parallelized.
             </p>
@@ -424,66 +492,33 @@ export default function HomePage() {
           </TryIt>
           <RNNArchitectureViz />
 
-          <SectionTakeaway nextHref="embeddings" nextLabel="Embeddings">
+          <SectionTakeaway>
             RNNs gave networks a memory by threading a hidden state through a sequence, but reading
-            strictly left-to-right makes them slow to train and forgetful over long distances.
-            Transformers will fix this — but before any model can work with words, it has to turn them
-            into numbers it can compute with. That step is embeddings.
+            strictly left-to-right makes them slow to train and forgetful over long distances. The
+            architecture that replaced them drops the one-word-at-a-time constraint entirely: in a
+            transformer, every word can look at every other word directly, through attention.
           </SectionTakeaway>
         </div>
       </section>
 
       {/* ========================================
-          FOUNDATION 10: EMBEDDINGS
-      ======================================== */}
-      <section id="embeddings" className="section-boundary">
-        <div className="mx-auto w-full max-w-[var(--max-width)] px-6 lg:px-8">
-          <div className="mb-8">
-            <span className="badge">Foundations 10</span>
-            <h2 className="section-heading mt-4">
-              Embeddings: Turning Words into Vectors
-            </h2>
-            <p className="section-body">
-              A neural network only understands numbers, so the first thing any language model does is
-              convert each word (or token) into a list of numbers called an{" "}
-              <strong className="text-[color:var(--color-accent)]">embedding</strong>. Crucially these
-              vectors are <strong>learned</strong> during training, so words used in similar ways end
-              up close together — the model discovers on its own that &quot;cat&quot; and &quot;dog&quot;
-              are more alike than &quot;cat&quot; and &quot;Tuesday.&quot; Everything that follows,
-              attention included, operates on these vectors rather than on raw text.
-            </p>
-          </div>
-
-          <TryIt>
-            Click a word to see its nearest neighbours light up. Notice how words with related
-            meanings sit close together, even though nothing told the model their definitions — it
-            inferred the geometry from how the words are used.
-          </TryIt>
-          <EmbeddingIntro />
-
-          <SectionTakeaway nextHref="transformer-architecture" nextLabel="Transformer Architecture Details">
-            An embedding turns each word into a point in a high-dimensional space where distance
-            reflects similarity of meaning. This is the bridge from language to math: once words are
-            vectors, a network can compare, combine, and transform them. The transformer&apos;s big
-            idea is <em>how</em> it compares them — attention.
-          </SectionTakeaway>
-        </div>
-      </section>
-
-      {/* ========================================
-          FOUNDATION 11: TRANSFORMER ARCHITECTURE DETAILS
+          FOUNDATION 10: TRANSFORMER ARCHITECTURE DETAILS
       ======================================== */}
       <section id="transformer-architecture" className="section-boundary">
         <div className="mx-auto w-full max-w-[var(--max-width)] px-6 lg:px-8">
           <div className="mb-8">
-            <span className="badge">Foundations 11</span>
+            <span className="badge">Foundations 10</span>
             <h2 className="section-heading mt-4">
               Transformer Architecture Details
             </h2>
             <p className="section-body">
-              Deep dive into the transformer architecture: how Query-Key-Value attention works,
-              why positional encoding is necessary, and how multi-head attention enables
-              parallel processing of different aspects of meaning.
+              An RNN reads one word at a time, squeezing everything it has seen into a single
+              hidden state. The transformer drops that constraint entirely: every word looks at
+              every other word <em>directly</em>, all at once, through a mechanism called{" "}
+              <strong className="text-[color:var(--color-accent)]">attention</strong>. There is no
+              running memory to fade and no forced left-to-right order. This section unpacks how
+              that works: Query-Key-Value attention, multi-head attention running several
+              comparisons in parallel, and the positional encoding that restores word order.
             </p>
           </div>
 
@@ -494,7 +529,7 @@ export default function HomePage() {
             </h3>
             <TryIt>
               Hover over the blocks to see how data flows from input embeddings up through the
-              attention and feed-forward layers. Don&apos;t worry about every box yet — the two ideas
+              attention and feed-forward layers. Don&apos;t worry about every box yet. The two ideas
               that make it all work, attention and positional encoding, are unpacked just below.
             </TryIt>
             <TransformerArchitectureViz />
@@ -508,7 +543,7 @@ export default function HomePage() {
             <p className="section-body mb-4 max-w-3xl">
               Picking up from embeddings: the <strong>Query</strong>, <strong>Key</strong>, and{" "}
               <strong>Value</strong> that each word emits are all computed from its embedding vector.
-              Attention lets each word gather information from the others — a word&apos;s Query
+              Attention lets each word gather information from the others: a word&apos;s Query
               (&quot;what am I looking for?&quot;) is compared against every other word&apos;s Key
               (&quot;what do I offer?&quot;), and the closer the match, the more of that word&apos;s
               Value it pulls in. That&apos;s how &quot;it&quot; learns to look back at
@@ -521,14 +556,30 @@ export default function HomePage() {
             <QKVIntuitionBuilder />
           </div>
 
+          {/* Multi-Head Attention */}
+          <div className="mb-8">
+            <h3 className="text-xl font-semibold text-[color:var(--color-text-primary)] mb-4">
+              Multi-Head Attention
+            </h3>
+            <p className="section-body mb-4 max-w-3xl">
+              One attention pattern can capture only one kind of relationship at a time. So
+              transformers run several attention <strong>heads</strong> side by side, each with its
+              own learned Query, Key, and Value transformations: one head might track
+              who-did-what-to-whom, another which adjective modifies which noun, another long-range
+              references like &quot;it.&quot; Their outputs are combined, so the model weighs several
+              aspects of meaning at once. Because the heads are independent, they all run in
+              parallel.
+            </p>
+          </div>
+
           {/* Positional Encoding */}
           <div className="mb-8">
             <h3 className="text-xl font-semibold text-[color:var(--color-text-primary)] mb-4">
               Positional Encoding
             </h3>
             <p className="section-body mb-4 max-w-3xl">
-              Attention looks at all words simultaneously, which means — unlike an RNN — it has no
-              built-in sense of order. <strong>Positional encoding</strong> fixes that by adding a
+              Attention looks at all words simultaneously, which means that, unlike an RNN, it has
+              no built-in sense of order. <strong>Positional encoding</strong> fixes that by adding a
               position-dependent pattern to each word&apos;s vector, so the model can tell
               &quot;dog bites man&quot; from &quot;man bites dog.&quot;
             </p>
@@ -539,9 +590,52 @@ export default function HomePage() {
             <PositionalEncodingVisualizer />
           </div>
 
-          <SectionTakeaway nextHref="gpu-acceleration" nextLabel="GPU Acceleration">
+          {/* Closing the loop on the language problem */}
+          <div className="mb-8">
+            <h3 className="text-xl font-semibold text-[color:var(--color-text-primary)] mb-4">
+              Three Problems, Solved
+            </h3>
+            <p className="section-body mb-4 max-w-3xl">
+              Look back at the three challenges from The Language Problem. The transformer answers
+              each one directly:
+            </p>
+            <div className="grid md:grid-cols-3 gap-4 max-w-3xl">
+              <div className="bg-[rgba(91,156,245,0.08)] border border-[rgba(91,156,245,0.3)] rounded-lg p-5">
+                <div className="text-base font-semibold text-[color:var(--color-text-primary)] mb-2">
+                  Memory
+                </div>
+                <p className="text-sm text-[color:var(--color-text-secondary)]">
+                  Attention reaches any earlier word directly, no matter how far back it sits.
+                  Nothing fades with distance: &quot;it&quot; can look straight at
+                  &quot;the animal.&quot;
+                </p>
+              </div>
+              <div className="bg-[rgba(125,163,198,0.08)] border border-[rgba(125,163,198,0.3)] rounded-lg p-5">
+                <div className="text-base font-semibold text-[color:var(--color-text-primary)] mb-2">
+                  Context
+                </div>
+                <p className="text-sm text-[color:var(--color-text-secondary)]">
+                  Each word&apos;s vector is rebuilt as an attention-weighted mix of its neighbours,
+                  so &quot;bank&quot; next to &quot;river&quot; ends up with a different vector than
+                  &quot;bank&quot; next to &quot;deposited.&quot;
+                </p>
+              </div>
+              <div className="bg-[rgba(255,200,87,0.08)] border border-[rgba(255,200,87,0.3)] rounded-lg p-5">
+                <div className="text-base font-semibold text-[color:var(--color-text-primary)] mb-2">
+                  Word Order
+                </div>
+                <p className="text-sm text-[color:var(--color-text-secondary)]">
+                  Positional encoding stamps each vector with its place in the sentence, so
+                  &quot;dog bites man&quot; and &quot;man bites dog&quot; stay distinct even though
+                  all words are processed at once.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <SectionTakeaway>
             A transformer embeds each word as a vector, adds positional information, and then uses
-            Query-Key-Value attention so every word can draw on every other word in parallel —
+            Query-Key-Value attention so every word can draw on every other word in parallel,
             directly solving the memory, context, and order problems. Because all of this is matrix
             multiplication done at once, it&apos;s a perfect fit for the hardware we look at next.
           </SectionTakeaway>
@@ -549,17 +643,17 @@ export default function HomePage() {
       </section>
 
       {/* ========================================
-          FOUNDATION 12: GPU ACCELERATION
+          FOUNDATION 11: GPU ACCELERATION
       ======================================== */}
       <section id="gpu-acceleration" className="section-boundary">
         <div className="mx-auto w-full max-w-[var(--max-width)] px-6 lg:px-8">
           <div className="mb-8">
-            <span className="badge">Foundations 12</span>
+            <span className="badge">Foundations 11</span>
             <h2 className="section-heading mt-4">
               GPU Acceleration
             </h2>
             <p className="section-body">
-              Everything we&apos;ve built — the forward pass, backprop, attention — is ultimately
+              Everything we&apos;ve built (the forward pass, backprop, attention) is ultimately
               matrix multiplication repeated billions of times. GPUs (Graphics Processing Units) are
               what make that practical. Unlike CPUs, which excel at sequential tasks, GPUs perform
               thousands of operations in parallel, which is exactly the shape of the math in deep
@@ -568,15 +662,16 @@ export default function HomePage() {
           </div>
 
           <TryIt>
-            Compare how a CPU works through operations one after another against how a GPU fans them
-            out across many cores at once. The wider the matrix, the bigger the GPU&apos;s advantage.
+            In the benchmarks, switch between training and inference and step through the model
+            sizes. Watch the gap between the CPU row and the GPU rows widen from &quot;slower&quot;
+            to &quot;not practical at all.&quot;
           </TryIt>
           <GPUAccelerationSection />
 
-          <SectionTakeaway nextHref="transformer-pipeline" nextLabel="The Transformer Pipeline">
+          <SectionTakeaway>
             Transformers won partly because their math parallelizes cleanly onto GPUs, turning what
-            would be impossibly slow training into something feasible. We now have all the pieces — so
-            let&apos;s trace a single sentence end-to-end through a transformer.
+            would be impossibly slow training into something feasible. We now have all the pieces.
+            Let&apos;s trace a single sentence end-to-end through a transformer.
           </SectionTakeaway>
         </div>
       </section>
@@ -593,8 +688,8 @@ export default function HomePage() {
             </h2>
             <p className="section-body">
               Time to put every piece together. This is a step-by-step walkthrough of how a
-              transformer processes text — from tokenization, through embeddings and attention, to
-              generating the next word — using exactly the concepts built up over the previous
+              transformer processes text, from tokenization through embeddings and attention to
+              generating the next word, using exactly the concepts built up over the previous
               sections.
             </p>
           </div>
@@ -611,7 +706,7 @@ export default function HomePage() {
             That&apos;s the whole arc: a model is a function with tunable parameters; a cost function
             scores it; gradient descent and backpropagation tune the parameters by following slopes
             downhill; non-linear activations let the network bend to fit complex data; and embeddings,
-            attention, and positional encoding extend all of this to language — running fast on GPUs.
+            attention, and positional encoding extend all of this to language, running fast on GPUs.
             Every large language model you&apos;ve used is built from these same foundations, scaled
             up.
           </SectionTakeaway>

@@ -3,6 +3,8 @@ import {
   Inter,
   Space_Grotesk,
   Fira_Code,
+  Playfair_Display,
+  Source_Serif_4,
 } from "next/font/google";
 import "katex/dist/katex.min.css";
 import "./globals.css";
@@ -26,6 +28,18 @@ const firaCode = Fira_Code({
   weight: ["400", "500"],
 });
 
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-playfair",
+});
+
+const sourceSerif = Source_Serif_4({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-source-serif",
+});
+
 export const metadata: Metadata = {
   title: "Machine Learning Foundations: From Linear Regression to Transformers",
   description:
@@ -33,7 +47,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Machine Learning Foundations: From Linear Regression to Transformers",
     description:
-      "Interactive demos covering gradient descent, backpropagation, attention mechanisms, and transformer architecture - from first principles to modern deep learning.",
+      "Interactive demos covering gradient descent, backpropagation, attention mechanisms, and transformer architecture: from first principles to modern deep learning.",
     type: "website",
   },
   twitter: {
@@ -50,7 +64,7 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="light" className="bg-[color:var(--color-bg-primary)]">
       <body
-        className={`${inter.variable} ${spaceGrotesk.variable} ${firaCode.variable} antialiased`}
+        className={`${inter.variable} ${spaceGrotesk.variable} ${firaCode.variable} ${playfair.variable} ${sourceSerif.variable} antialiased`}
       >
         {children}
       </body>

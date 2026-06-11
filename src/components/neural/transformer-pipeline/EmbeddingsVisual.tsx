@@ -47,18 +47,10 @@ export function EmbeddingsVisual() {
           Step 2: Embeddings
         </h3>
         <p className="text-sm text-[var(--color-text-secondary)] mb-4">
-          Each token ID becomes a <strong className="text-[var(--color-accent)]">high-dimensional vector</strong> (typically 768 or more dimensions).
-          These vectors encode semantic meaning - similar words cluster together in this &quot;embedding space&quot;.
+          Each token ID becomes a <strong className="text-[var(--color-accent)]">high-dimensional vector</strong> (typically 768 or more dimensions):
+          exactly the learned embeddings from the Embeddings section, where similar words sit close together.
+          The positional fingerprint from Positional Encoding is added to each vector here, so word order survives the next stage.
         </p>
-
-        {/* Key insight */}
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 text-sm">
-          <strong className="text-blue-700">The magic:</strong>
-          <span className="text-blue-800 ml-2">
-            Vector arithmetic works! &quot;king&quot; - &quot;man&quot; + &quot;woman&quot; = &quot;queen&quot;.
-            Relationships are encoded as directions in space.
-          </span>
-        </div>
       </div>
 
       {/* Token to Vector Transformation */}

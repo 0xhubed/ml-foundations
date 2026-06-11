@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
 :root {
-  /* Light Theme - Monitor-Safe Colors */
-  --color-bg-primary: #FFFFFF;
-  --color-bg-secondary: #FAFAF9;
-  --color-surface: rgba(255, 255, 255, 0.95);
-  --color-surface-strong: rgba(255, 255, 255, 1);
+  /* Light Theme - warm "newsprint" paper with monitor-safe ink colors */
+  --color-bg-primary: #FAF8F3;
+  --color-bg-secondary: #F5F2EA;
+  --color-surface: rgba(253, 251, 247, 0.95);
+  --color-surface-strong: #FDFBF7;
   --color-text-primary: #1A1A1A;
   --color-text-secondary: #4A5568;
   --color-text-muted: #718096;
@@ -16,7 +16,7 @@
   --color-border: rgba(0, 0, 0, 0.08);
   --color-shadow: rgba(0, 0, 0, 0.06);
   --blur-backdrop: 8px;
-  --radius-large: 32px;
+  --radius-large: 4px;
   --radius-medium: 20px;
   --radius-small: 12px;
   --spacing-unit: 4px;
@@ -26,21 +26,117 @@
 }
 
 body {
-  background: linear-gradient(to bottom, #FFFFFF 0%, #FAFAF9 100%);
+  background: linear-gradient(to bottom, #FAF8F3 0%, #F5F2EA 100%);
 }
 
 /* Light theme adjustments for glass panels */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
+  background: #FDFBF7;
+  border: 1px solid rgba(26, 26, 26, 0.3);
+  box-shadow: none;
 }
 
-/* Light theme badge */
+/* Warm paper card surfaces: remap the neutral Tailwind backgrounds used across
+   the components onto the newsprint palette so cards sit on the page instead of
+   popping bright white. Colored tint cards (blue/amber/orange/cyan) stay as-is. */
+.bg-white {
+  background-color: #FDFBF7;
+}
+.bg-gray-50 {
+  background-color: #F6F3EC;
+}
+.bg-gray-100 {
+  background-color: #F0ECE2;
+}
+.bg-\[\#F8FAFC\] {
+  background-color: #F6F3EC;
+}
+.bg-\[\#F1F5F9\] {
+  background-color: #F0ECE2;
+}
+.bg-\[rgba\(248\,250\,252\,0\.5\)\] {
+  background-color: rgba(246, 243, 236, 0.5);
+}
+.bg-\[rgba\(248\,250\,252\,0\.7\)\] {
+  background-color: rgba(246, 243, 236, 0.7);
+}
+
+/* No card elevation in print: in-flow cards lose their drop shadows.
+   (shadow-md/lg stay for genuinely floating UI like tooltips and the
+   back-to-top button.) */
+.shadow-sm {
+  box-shadow: none;
+}
+
+/* Print-ink palette: remap the saturated web hues used across components onto
+   muted editorial inks (petrol, ochre, plum, moss, brick, navy). Semantic color
+   coding is preserved; only the hue temperature changes. All values hold AA
+   contrast on the paper background. */
+.text-cyan-600 { color: #2F6F7E; }
+.text-cyan-400 { color: #5E93A0; }
+.bg-cyan-500 { background-color: #3D7E8C; }
+.bg-cyan-50 { background-color: #EEF3F3; }
+.bg-cyan-500\/15 { background-color: rgba(61, 126, 140, 0.15); }
+.border-cyan-500 { border-color: #3D7E8C; }
+.border-cyan-300 { border-color: #9FBFC7; }
+.border-cyan-200 { border-color: #C4D8DC; }
+.border-cyan-500\/40 { border-color: rgba(61, 126, 140, 0.4); }
+
+.text-orange-600, .text-orange-500 { color: #B45309; }
+.text-orange-400 { color: #C97B2D; }
+.bg-orange-500 { background-color: #B45309; }
+.bg-orange-50 { background-color: #F6EFE3; }
+.bg-orange-500\/15 { background-color: rgba(180, 83, 9, 0.15); }
+.border-orange-500 { border-color: #B45309; }
+.border-orange-300 { border-color: #D9B38A; }
+.border-orange-200 { border-color: #E8D3B8; }
+.border-orange-500\/40 { border-color: rgba(180, 83, 9, 0.4); }
+
+.text-purple-600 { color: #6D4A72; }
+.bg-purple-500 { background-color: #6D4A72; }
+.bg-purple-50 { background-color: #F2EEF3; }
+.border-purple-500 { border-color: #6D4A72; }
+.border-purple-300 { border-color: #B59CB8; }
+.border-purple-200 { border-color: #D4C4D6; }
+
+.text-green-600, .text-emerald-600, .text-emerald-700 { color: #3E7350; }
+.text-green-400, .text-emerald-800 { color: #3E7350; }
+.bg-green-500 { background-color: #4A7C59; }
+.bg-green-50, .bg-emerald-50 { background-color: #EDF3EE; }
+.bg-emerald-100 { background-color: #E2ECE4; }
+.bg-green-500\/10 { background-color: rgba(74, 124, 89, 0.1); }
+.border-green-500 { border-color: #4A7C59; }
+.border-green-200, .border-emerald-200 { border-color: #C9DBCE; }
+.border-emerald-300 { border-color: #A9C4B0; }
+.border-emerald-400 { border-color: #6B9478; }
+.border-emerald-400\/40 { border-color: rgba(107, 148, 120, 0.4); }
+.border-green-500\/30 { border-color: rgba(74, 124, 89, 0.3); }
+
+.text-red-600, .text-red-500, .text-red-400 { color: #A23B2E; }
+.bg-red-50 { background-color: #F6ECEA; }
+.border-red-300 { border-color: #D2A099; }
+
+.text-blue-500, .text-blue-600 { color: #0F4C81; }
+.text-blue-700, .text-blue-800, .text-blue-900 { color: #0E3E66; }
+.bg-blue-500 { background-color: #0F4C81; }
+.bg-blue-50 { background-color: #EDF1F4; }
+.border-blue-500 { border-color: #0F4C81; }
+.border-blue-400 { border-color: #4A7CA8; }
+.border-blue-300 { border-color: #8FAEC7; }
+.border-blue-200 { border-color: #C2D2DF; }
+
+.text-yellow-400 { color: #B45309; }
+
+/* Section kicker: small-caps newspaper section label instead of a pill badge */
 .badge {
-  background: rgba(15, 76, 129, 0.08);
-  border: 1px solid rgba(15, 76, 129, 0.12);
+  background: transparent;
+  border: none;
+  padding: 0;
+  border-radius: 0;
   color: var(--color-accent);
+  font-family: var(--font-playfair), Georgia, serif;
+  font-weight: 700;
+  letter-spacing: 0.28em;
 }
 
 /* Light theme buttons */
@@ -302,11 +398,12 @@ header .h-11.w-11 {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
-/* Fix visualization cards - make backgrounds WHITE for better contrast */
+/* Visualization panels as flat ruled "figure frames": warm paper surface,
+   ink hairline, no elevation */
 .glass-panel {
-  background: rgba(255, 255, 255, 1) !important;
-  border: 2px solid rgba(0, 0, 0, 0.12) !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;
+  background: #FDFBF7 !important;
+  border: 1px solid rgba(26, 26, 26, 0.3) !important;
+  box-shadow: none !important;
 }
 
 /* Make ReAct Loop diagram more visible in light theme - exclude neural network viz */
@@ -409,6 +506,22 @@ body {
   -moz-osx-font-smoothing: auto;
 }
 
+/* Editorial typography: headings in a display serif, prose paragraphs in a text serif.
+   Divs, spans, and buttons (data readouts, UI labels, chart text) intentionally stay sans
+   so the interactive figures keep their modern look. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-playfair), Georgia, serif;
+}
+
+p {
+  font-family: var(--font-source-serif), Georgia, serif;
+}
+
 ::selection {
   background: color-mix(in srgb, var(--color-highlight) 40%, transparent);
   color: var(--color-text-primary);
@@ -451,17 +564,27 @@ main {
   background: var(--color-surface);
   border-radius: var(--radius-large);
   border: 1px solid var(--color-border);
-  backdrop-filter: blur(var(--blur-backdrop));
-  box-shadow: 0 32px 80px -32px var(--color-shadow);
+  box-shadow: none;
 }
 
 .section-boundary {
   position: relative;
-  padding-block: clamp(4rem, 8vw, 6rem);
+  padding-block: clamp(3rem, 5vw, 4rem);
 }
 
+/* Classic double rule between sections, like a newspaper column divider */
 .section-boundary:not(:first-of-type) {
-  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  border-top: 4px double rgba(26, 26, 26, 0.3);
+}
+
+/* Newspaper masthead wordmark */
+.masthead-title {
+  font-family: var(--font-playfair), Georgia, serif;
+  font-weight: 800;
+  font-size: clamp(2.4rem, 5.5vw, 3.8rem);
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+  color: var(--color-text-primary);
 }
 
 .section-title {
@@ -474,9 +597,10 @@ main {
 }
 
 .section-heading {
-  font-family: var(--font-space-grotesk), var(--font-inter), sans-serif;
+  font-family: var(--font-playfair), Georgia, serif;
+  font-weight: 700;
   font-size: clamp(2.3rem, 4vw, 3.2rem);
-  line-height: 1.1;
+  line-height: 1.12;
   margin-top: 0.75rem;
   margin-bottom: 1.25rem;
 }
@@ -484,21 +608,17 @@ main {
 .section-body {
   max-width: 720px;
   color: var(--color-text-secondary);
-  font-size: clamp(1rem, 1.4vw, 1.12rem);
-  line-height: 1.65;
+  font-family: var(--font-source-serif), Georgia, serif;
+  font-size: clamp(1.02rem, 1.4vw, 1.15rem);
+  line-height: 1.7;
 }
 
 .badge {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.35rem 0.8rem;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.14);
   font-size: 0.8rem;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
 }
 
 .button-primary {
@@ -1730,31 +1850,31 @@ input[type="range"].slider::-moz-range-thumb:hover {
   }
 }
 
-/* Range input styling */
+/* Range input styling (light theme fallback for sliders without the .slider class) */
 input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
-  height: 8px;
-  background: rgba(255, 255, 255, 0.2);
+  height: 6px;
+  background: #d1d5db;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   outline: none;
   cursor: pointer;
 }
 
 input[type="range"]::-webkit-slider-track {
   width: 100%;
-  height: 8px;
-  background: rgba(255, 255, 255, 0.2);
+  height: 6px;
+  background: #d1d5db;
   border-radius: 8px;
   cursor: pointer;
 }
 
 input[type="range"]::-moz-range-track {
   width: 100%;
-  height: 8px;
-  background: rgba(255, 255, 255, 0.2);
+  height: 6px;
+  background: #d1d5db;
   border-radius: 8px;
   cursor: pointer;
 }
@@ -1765,12 +1885,12 @@ input[type="range"]::-webkit-slider-thumb {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background: #ffffff;
+  background: #0f4c81;
   cursor: pointer;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  border: 2px solid #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
   transition: transform 0.15s ease;
-  margin-top: -4px;
+  margin-top: -5px;
 }
 
 input[type="range"]::-webkit-slider-thumb:hover {
@@ -1781,10 +1901,10 @@ input[type="range"]::-moz-range-thumb {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background: #ffffff;
+  background: #0f4c81;
   cursor: pointer;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  border: 2px solid #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
   transition: transform 0.15s ease;
 }
 

@@ -228,6 +228,7 @@ export function DistributedRepresentationDemo() {
           ]}
           layout={layout}
           config={{ displayModeBar: false, responsive: true }}
+          useResizeHandler
           className="w-full"
         />
       </div>

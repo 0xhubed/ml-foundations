@@ -17,7 +17,7 @@ const EXAMPLES: TokenExample[] = [
       { text: " world", id: 1917 },
       { text: "!", id: 0 },
     ],
-    description: "Simple greeting - each word/punctuation becomes a token",
+    description: "Simple greeting: each word/punctuation becomes a token",
   },
   {
     text: "ChatGPT is amazing",
@@ -28,7 +28,7 @@ const EXAMPLES: TokenExample[] = [
       { text: " is", id: 374 },
       { text: " amazing", id: 8056 },
     ],
-    description: "Rare words get split - 'ChatGPT' becomes 3 tokens",
+    description: "Rare words get split: 'ChatGPT' becomes 3 tokens",
   },
   {
     text: "The quick brown fox",
@@ -38,7 +38,7 @@ const EXAMPLES: TokenExample[] = [
       { text: " brown", id: 14198 },
       { text: " fox", id: 39935 },
     ],
-    description: "Common words stay whole - spaces attach to following word",
+    description: "Common words stay whole: spaces attach to the following word",
   },
   {
     text: "cryptocurrency",

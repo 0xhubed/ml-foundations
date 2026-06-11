@@ -1,57 +1,8 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-
-type ProcessingMode = 'idle' | 'cpu' | 'gpu';
+import React from 'react';
 
 export function MatrixMultiplicationVisualizer() {
-  const [mode, setMode] = useState<ProcessingMode>('idle');
-  const [activeRow, setActiveRow] = useState<number>(-1);
-  const [completedRows, setCompletedRows] = useState<number[]>([]);
-  const [operationCount, setOperationCount] = useState(0);
-
-  const matrixSize = 20;
-
-  useEffect(() => {
-    if (mode === 'idle') {
-      setActiveRow(-1);
-      setCompletedRows([]);
-      setOperationCount(0);
-      return;
-    }
-
-    if (mode === 'cpu') {
-      // Sequential processing
-      let row = 0;
-      const interval = setInterval(() => {
-        if (row < matrixSize) {
-          setActiveRow(row);
-          setOperationCount(prev => prev + matrixSize);
-          setTimeout(() => {
-            setCompletedRows(prev => [...prev, row]);
-            setActiveRow(-1);
-          }, 80);
-          row++;
-        } else {
-          clearInterval(interval);
-          setTimeout(() => setMode('idle'), 1000);
-        }
-      }, 100);
-
-      return () => clearInterval(interval);
-    }
-
-    if (mode === 'gpu') {
-      // Parallel processing - all at once
-      setTimeout(() => {
-        const allRows = Array.from({ length: matrixSize }, (_, i) => i);
-        setCompletedRows(allRows);
-        setOperationCount(matrixSize * matrixSize);
-        setTimeout(() => setMode('idle'), 1500);
-      }, 100);
-    }
-  }, [mode]);
-
   return (
     <div className="space-y-6">
       {/* Comparison Table */}
@@ -90,96 +41,6 @@ export function MatrixMultiplicationVisualizer() {
           </table>
         </div>
       </div>
-
-      {/* Visual Demonstration */}
-      <div className="grid md:grid-cols-2 gap-6">
-        {/* CPU Processing */}
-        <div className="bg-white border border-gray-200 rounded-xl p-6 space-y-4 shadow-sm">
-          <div className="flex items-center justify-between">
-            <h4 className="text-xl font-semibold text-orange-500">CPU: Sequential</h4>
-            <span className="text-sm text-[color:var(--color-text-secondary)]">One row at a time</span>
-          </div>
-
-          <div className="border-2 border-orange-300 rounded-lg p-4 bg-orange-50">
-            <div className="grid gap-0.5" style={{ gridTemplateColumns: `repeat(${matrixSize}, 1fr)` }}>
-              {Array.from({ length: matrixSize * matrixSize }).map((_, i) => {
-                const row = Math.floor(i / matrixSize);
-                const isActive = mode === 'cpu' && row === activeRow;
-                const isCompleted = completedRows.includes(row);
-
-                return (
-                  <div
-                    key={i}
-                    className={`
-                      aspect-square rounded-sm transition-all duration-200
-                      ${isActive ? 'bg-orange-500 shadow-sm shadow-orange-500' : ''}
-                      ${isCompleted && !isActive ? 'bg-orange-500/40' : ''}
-                      ${!isActive && !isCompleted ? 'bg-orange-500/10' : ''}
-                    `}
-                  />
-                );
-              })}
-            </div>
-          </div>
-
-          <button
-            onClick={() => setMode('cpu')}
-            disabled={mode !== 'idle'}
-            className="w-full px-4 py-2 bg-orange-500 rounded-lg font-semibold
-                       disabled:opacity-50 disabled:cursor-not-allowed
-                       hover:bg-orange-600 transition-colors"
-          >
-            {mode === 'cpu' ? 'Processing...' : 'Run CPU Mode'}
-          </button>
-        </div>
-
-        {/* GPU Processing */}
-        <div className="bg-white border border-gray-200 rounded-xl p-6 space-y-4 shadow-sm">
-          <div className="flex items-center justify-between">
-            <h4 className="text-xl font-semibold text-cyan-600">GPU: Parallel</h4>
-            <span className="text-sm text-[color:var(--color-text-secondary)]">All rows simultaneously</span>
-          </div>
-
-          <div className="border-2 border-cyan-300 rounded-lg p-4 bg-cyan-50">
-            <div className="grid gap-0.5" style={{ gridTemplateColumns: `repeat(${matrixSize}, 1fr)` }}>
-              {Array.from({ length: matrixSize * matrixSize }).map((_, i) => {
-                const row = Math.floor(i / matrixSize);
-                const isCompleted = mode === 'gpu' && completedRows.includes(row);
-
-                return (
-                  <div
-                    key={i}
-                    className={`
-                      aspect-square rounded-sm transition-all duration-200
-                      ${isCompleted ? 'bg-cyan-500 shadow-sm shadow-cyan-500' : 'bg-cyan-500/10'}
-                    `}
-                  />
-                );
-              })}
-            </div>
-          </div>
-
-          <button
-            onClick={() => setMode('gpu')}
-            disabled={mode !== 'idle'}
-            className="w-full px-4 py-2 bg-cyan-500 rounded-lg font-semibold
-                       disabled:opacity-50 disabled:cursor-not-allowed
-                       hover:bg-cyan-600 transition-colors"
-          >
-            {mode === 'gpu' ? 'Processing...' : 'Run GPU Mode'}
-          </button>
-        </div>
-      </div>
-
-      {/* Operation Counter */}
-      {mode !== 'idle' && (
-        <div className="bg-white border border-gray-200 rounded-xl p-4 text-center shadow-sm">
-          <div className="text-sm text-[color:var(--color-text-secondary)]">Operations Completed</div>
-          <div className="text-3xl font-bold font-mono text-[color:var(--color-text-primary)]">
-            {operationCount.toLocaleString()} / {(matrixSize * matrixSize).toLocaleString()}
-          </div>
-        </div>
-      )}
 
       {/* Code Example */}
       <div className="bg-purple-50 border border-purple-200 rounded-xl p-6 border-l-4 border-l-purple-500">

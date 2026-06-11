@@ -130,11 +130,11 @@ export function BackpropagationVisualizer() {
   return (
     <div className="space-y-6">
       {/* Chain Rule Definition */}
-      <div className="border border-[rgba(255,255,255,0.2)] rounded-lg p-6 mb-6">
+      <div className="bg-[rgba(107,140,174,0.08)] border border-[rgba(107,140,174,0.3)] rounded-lg p-6 mb-6">
         <h4 className="text-sm font-bold text-[color:var(--color-text-primary)] mb-3 text-center">
           The Chain Rule from Calculus
         </h4>
-        <div className="border border-[rgba(255,255,255,0.2)] rounded-lg p-4 mb-3">
+        <div className="bg-white border border-[rgba(0,0,0,0.1)] rounded-lg p-4 mb-3">
           <MathCopyBlock expression={String.raw`\frac{d}{dx}[f(g(x))] = f'(g(x)) \cdot g'(x)`} />
         </div>
         <p className="text-sm text-[color:var(--color-text-secondary)] text-center">
@@ -157,7 +157,7 @@ export function BackpropagationVisualizer() {
             {step.phase === "setup" && "Setup"}
           </span>
         </div>
-        <div className="w-full bg-[rgba(255,255,255,0.1)] rounded-full h-2">
+        <div className="w-full bg-[rgba(0,0,0,0.08)] rounded-full h-2">
           <div
             className="bg-gradient-to-r from-[rgba(107,140,174,0.8)] to-[rgba(91,156,245,0.8)] h-2 rounded-full transition-all duration-300"
             style={{ width: `${(currentStep / (STEPS.length - 1)) * 100}%` }}
@@ -166,7 +166,7 @@ export function BackpropagationVisualizer() {
       </div>
 
       {/* Main Content Area */}
-      <div className="border border-[rgba(255,255,255,0.1)] rounded-lg p-8 mb-6 min-h-[400px]">
+      <div className="bg-[rgba(248,250,252,0.7)] border border-[rgba(0,0,0,0.08)] rounded-lg p-8 mb-6">
         {/* Step Title */}
         <div className="text-center mb-6">
           <h4 className="text-xl font-bold text-[color:var(--color-text-primary)] mb-2">
@@ -196,7 +196,7 @@ export function BackpropagationVisualizer() {
 
             {/* Arrow */}
             <div className="flex flex-col items-center">
-              <div className={`h-0.5 w-12 transition-all ${currentStep >= 1 ? "bg-[rgba(107,140,174,0.8)]" : "bg-[rgba(255,255,255,0.2)]"}`} />
+              <div className={`h-0.5 w-12 transition-all ${currentStep >= 1 ? "bg-[rgba(107,140,174,0.8)]" : "bg-[rgba(0,0,0,0.15)]"}`} />
               <span
                 className={`text-xs mt-1 font-bold transition-all ${
                   getNodeHighlight("w1")
@@ -224,7 +224,7 @@ export function BackpropagationVisualizer() {
 
             {/* Arrow */}
             <div className="flex flex-col items-center">
-              <div className={`h-0.5 w-12 transition-all ${currentStep >= 3 ? "bg-[rgba(91,156,245,0.8)]" : "bg-[rgba(255,255,255,0.2)]"}`} />
+              <div className={`h-0.5 w-12 transition-all ${currentStep >= 3 ? "bg-[rgba(91,156,245,0.8)]" : "bg-[rgba(0,0,0,0.15)]"}`} />
               <span
                 className={`text-xs mt-1 font-bold transition-all ${
                   getNodeHighlight("w2")
@@ -267,7 +267,7 @@ export function BackpropagationVisualizer() {
                     L = 2.0
                   </div>
                   <span className="text-xs text-[color:var(--color-text-secondary)]">Loss</span>
-                  <span className="text-xs text-[rgba(255,255,255,0.6)]">(y = 8.0)</span>
+                  <span className="text-xs text-[color:var(--color-text-secondary)]">(y = 8.0)</span>
                 </div>
               </>
             )}
@@ -279,7 +279,7 @@ export function BackpropagationVisualizer() {
           {/* Formula Display */}
           {step.formula ? (
             <div className="mb-6">
-              <div className="border border-[rgba(255,255,255,0.2)] rounded-lg p-4">
+              <div className="bg-white border border-[rgba(0,0,0,0.1)] rounded-lg p-4">
                 <MathCopyBlock expression={step.formula} />
               </div>
             </div>
@@ -287,7 +287,7 @@ export function BackpropagationVisualizer() {
 
           {/* Chain Rule Breakdown */}
           {step.chainRule && (
-            <div className="border border-[rgba(255,255,255,0.2)] rounded-lg p-6">
+            <div className="bg-white border border-[rgba(0,0,0,0.1)] rounded-lg p-6">
               <h5 className="text-sm font-bold text-[color:var(--color-text-primary)] mb-4 text-center">
                 Chain Rule Decomposition
               </h5>
@@ -400,17 +400,17 @@ export function BackpropagationVisualizer() {
 
       {/* Key Insights */}
       <div className="mt-8 space-y-4">
-        <div className="border border-[rgba(255,255,255,0.2)] rounded-lg p-4">
+        <div className="bg-white border border-[rgba(0,0,0,0.1)] rounded-lg p-4">
           <h4 className="font-semibold text-[color:var(--color-text-primary)] mb-2">
             The Chain Rule Makes It Possible
           </h4>
           <p className="text-sm text-[color:var(--color-text-secondary)]">
             To find how loss changes with w₁, we multiply three derivatives along the path: ∂L/∂ŷ × ∂ŷ/∂a₁ × ∂a₁/∂w₁.
-            This works for ANY network depth - just keep multiplying!
+            This works for ANY network depth: just keep multiplying!
           </p>
         </div>
 
-        <div className="border border-[rgba(255,255,255,0.2)] rounded-lg p-4">
+        <div className="bg-white border border-[rgba(0,0,0,0.1)] rounded-lg p-4">
           <h4 className="font-semibold text-[color:var(--color-text-primary)] mb-2">
             Why ½ in the Loss Function?
           </h4>
@@ -420,12 +420,12 @@ export function BackpropagationVisualizer() {
           </p>
         </div>
 
-        <div className="border border-[rgba(255,255,255,0.2)] rounded-lg p-4">
+        <div className="bg-white border border-[rgba(0,0,0,0.1)] rounded-lg p-4">
           <h4 className="font-semibold text-[color:var(--color-text-primary)] mb-2">
             From 2 Weights to Billions
           </h4>
           <p className="text-sm text-[color:var(--color-text-secondary)]">
-            This example: 2 weights. GPT-4: ~1 trillion weights. Same algorithm - backpropagation computes gradients for ALL of them!
+            This example: 2 weights. GPT-4: ~1 trillion weights. Same algorithm: backpropagation computes gradients for ALL of them!
             That is why GPUs are essential: billions of gradient calculations in parallel.
           </p>
         </div>

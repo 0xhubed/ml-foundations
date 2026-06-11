@@ -26,8 +26,8 @@ export const PLOTLY_COLORS = {
 
 // Base light theme layout for 2D charts
 export const lightThemeLayout2D: Partial<Layout> = {
-  paper_bgcolor: "#FFFFFF",
-  plot_bgcolor: "#F8FAFC",
+  paper_bgcolor: "#FDFBF7",
+  plot_bgcolor: "#F6F3EC",
   font: {
     family: "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
     size: 13,
@@ -46,7 +46,7 @@ export const lightThemeLayout2D: Partial<Layout> = {
     zerolinecolor: "#9CA3AF",
   },
   legend: {
-    bgcolor: "rgba(255, 255, 255, 0.9)",
+    bgcolor: "rgba(253, 251, 247, 0.9)",
     bordercolor: "rgba(0, 0, 0, 0.1)",
     borderwidth: 1,
     font: {
@@ -57,8 +57,8 @@ export const lightThemeLayout2D: Partial<Layout> = {
 
 // Base light theme layout for 3D charts
 export const lightThemeLayout3D: Partial<Layout> = {
-  paper_bgcolor: "#FFFFFF",
-  plot_bgcolor: "#F8FAFC",
+  paper_bgcolor: "#FDFBF7",
+  plot_bgcolor: "#F6F3EC",
   font: {
     family: "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
     size: 12,
@@ -88,7 +88,7 @@ export const lightThemeLayout3D: Partial<Layout> = {
     },
   },
   legend: {
-    bgcolor: "rgba(255, 255, 255, 0.95)",
+    bgcolor: "rgba(253, 251, 247, 0.95)",
     bordercolor: "rgba(0, 0, 0, 0.1)",
     borderwidth: 1,
     font: {

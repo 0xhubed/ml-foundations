@@ -9,6 +9,7 @@ import { ViewModeButtons } from "./shared/ViewModeButtons";
 import { VCRControls } from "./shared/VCRControls";
 import { ParameterSlider } from "./shared/ParameterSlider";
 import { lightThemeLayout3D, lightSurfaceColorscale, PLOTLY_COLORS } from "@/lib/plotlyLightTheme";
+import { usePlotContainerWidth } from "@/lib/usePlotContainerWidth";
 
 const Plot = dynamic(() => import("react-plotly.js"), {
   ssr: false,
@@ -33,6 +34,7 @@ export function GradientDescentExplorer() {
   const [startPoint, setStartPoint] = useState<"far" | "medium" | "near">("far");
   const [currentStep, setCurrentStep] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const { ref: plotContainerRef, width: plotWidth } = usePlotContainerWidth();
 
   // Bowl-shaped cost function centered at (5, 50): f(w,b) = (w-5)² + 0.05*(b-50)²
   // Scaling 0.05 makes b gradient comparable to w gradient visually
@@ -157,6 +159,16 @@ export function GradientDescentExplorer() {
       autosize: true,
       height: 600,
       margin: { l: 0, r: 0, t: 0, b: 0 },
+      // Anchor the legend inside the plot area; the default position sits
+      // outside it and auto-expands the right margin, which squeezes the 3D
+      // scene to roughly half width on small screens.
+      legend: {
+        ...lightThemeLayout3D.legend,
+        x: 0.02,
+        xanchor: "left",
+        y: 0.98,
+        yanchor: "top",
+      },
       scene: {
         ...lightThemeLayout3D.scene,
         aspectratio: { x: 1.6, y: 1.6, z: 0.7 },
@@ -241,13 +253,17 @@ export function GradientDescentExplorer() {
       </div>
 
       {(viewMode === "path" || viewMode === "both") && (
-        <div className="relative mb-6 w-full max-w-[1400px] mx-auto">
-          <Plot
-            data={surfaceData.data}
-            layout={surfaceData.layout}
-            config={config}
-            style={{ width: "100%", height: "100%" }}
-          />
+        <div ref={plotContainerRef} className="relative mb-6 w-full max-w-[1400px] mx-auto">
+          {plotWidth > 0 && (
+            <Plot
+              key={plotWidth}
+              data={surfaceData.data}
+              layout={surfaceData.layout}
+              config={config}
+              useResizeHandler
+              style={{ width: "100%", height: "100%" }}
+            />
+          )}
         </div>
       )}
 
@@ -342,7 +358,7 @@ export function GradientDescentExplorer() {
               className={`rounded-full border px-3 py-1 transition ${
                 startPoint === point
                   ? "border-[rgba(91,156,245,0.65)] bg-[rgba(91,156,245,0.12)] text-[color:var(--color-text-primary)]"
-                  : "border-[rgba(255,255,255,0.16)] hover:border-[rgba(255,255,255,0.3)]"
+                  : "border-[rgba(0,0,0,0.12)] hover:border-[rgba(15,76,129,0.4)]"
               }`}
               onClick={() => {
                 setStartPoint(point);
@@ -372,7 +388,7 @@ export function GradientDescentExplorer() {
         </div>
 
         {/* Compact Linear Regression Weights Visualization on the right */}
-        <div className="border border-[rgba(255,255,255,0.2)] rounded-lg p-3 bg-[rgba(255,255,255,0.02)]">
+        <div className="border border-[rgba(0,0,0,0.1)] rounded-lg p-3 bg-[rgba(248,250,252,0.7)]">
         <div className="flex items-center justify-center gap-3">
           {/* Input */}
           <div className="flex flex-col items-center">
@@ -421,7 +437,7 @@ export function GradientDescentExplorer() {
         </div>
 
         {/* Update Rule and Gradients */}
-        <div className="mt-3 pt-3 border-t border-[rgba(255,255,255,0.1)] space-y-2">
+        <div className="mt-3 pt-3 border-t border-[rgba(0,0,0,0.1)] space-y-2">
           {/* Current parameter values and gradients */}
           <div className="flex items-center justify-center gap-10">
             <div className="flex flex-col items-center gap-0.5">

@@ -51,28 +51,28 @@ export const chapters: ChapterDefinition[] = [
     teaser:
       "Build intuition for how modern AI works: how models learn through gradient descent, how backpropagation computes the updates, and how transformers process language.",
     summary:
-      "The essential foundations of machine learning - from linear regression and gradient descent to backpropagation, RNNs, and the transformer architecture behind modern language models.",
+      "The essential foundations of machine learning: from linear regression and gradient descent to backpropagation, RNNs, and the transformer architecture behind modern language models.",
     chapterHref: "/",
     presenters: ["Daniel Huber"],
-    estimatedMinutes: 30,
+    estimatedMinutes: 45,
     prerequisites: "None",
     difficulty: "beginner",
     learningOutcomes: [
       "Understand how models optimize their parameters with gradient descent",
       "See how backpropagation computes gradients through a network",
-      "Grasp how transformers enable reasoning through attention mechanisms",
+      "Grasp how transformers process language through attention mechanisms",
     ],
     notebooks: [],
     sections: [
       {
         id: "linear-regression",
         title: "Linear Regression & Cost Function",
-        description: "The simplest model - predicting output as a linear function of input - and how the cost function measures error.",
+        description: "The simplest model, predicting output as a linear function of input, and how the cost function measures error.",
       },
       {
         id: "derivatives",
         title: "Understanding Derivatives",
-        description: "How derivatives measure change in 1D and multi-dimensional settings - the slope that tells us which way is downhill.",
+        description: "How derivatives measure change in 1D and multi-dimensional settings: the slope that tells us which way is downhill.",
       },
       {
         id: "gradient-descent",
@@ -82,7 +82,7 @@ export const chapters: ChapterDefinition[] = [
       {
         id: "backpropagation",
         title: "Backpropagation",
-        description: "The chain-rule algorithm that propagates error backward to compute gradients efficiently.",
+        description: "How neurons stack into layered networks, and the chain-rule algorithm that propagates error backward to compute every gradient in one sweep.",
       },
       {
         id: "distributed-representations",
@@ -93,27 +93,22 @@ export const chapters: ChapterDefinition[] = [
       {
         id: "activation-functions",
         title: "Activation Functions",
-        description: "Why non-linearity (ReLU, sigmoid) is what stops a deep network from collapsing into a single linear layer.",
-      },
-      {
-        id: "when-linearity-fails",
-        title: "When Linearity Fails",
-        description: "Where linear models break down and why neural networks are needed to capture non-linear patterns.",
+        description: "Why non-linearity stops a deep network from collapsing into a single linear layer, including a demo where a linear model fails and a neural network succeeds.",
       },
       {
         id: "language-problem",
         title: "The Language Problem",
-        description: "Why language understanding - memory, context, and word order - is uniquely challenging for simple feed-forward networks.",
-      },
-      {
-        id: "rnn-architecture",
-        title: "RNN Architecture",
-        description: "The first attempt at sequences: how RNNs carry a hidden state forward and why they struggle to scale.",
+        description: "Why language understanding (memory, context, and word order) is uniquely challenging for simple feed-forward networks.",
       },
       {
         id: "embeddings",
         title: "Embeddings",
         description: "How words become vectors, so that similar meanings sit close together in a space a network can compute with.",
+      },
+      {
+        id: "rnn-architecture",
+        title: "RNN Architecture",
+        description: "The first attempt at sequences: how RNNs carry a hidden state forward and why they struggle to scale.",
       },
       {
         id: "transformer-architecture",

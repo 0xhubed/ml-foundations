@@ -49,7 +49,7 @@ export function PartialDerivativeBreakdown() {
               step="0.5"
               value={wVal}
               onChange={(e) => setWVal(parseFloat(e.target.value))}
-              className="w-full h-2 bg-[rgba(255,255,255,0.1)] rounded-lg appearance-none cursor-pointer accent-[rgba(255,200,87,1)]"
+              className="w-full appearance-none cursor-pointer slider"
             />
           </div>
           <div>
@@ -66,7 +66,7 @@ export function PartialDerivativeBreakdown() {
               step="0.5"
               value={bVal}
               onChange={(e) => setBVal(parseFloat(e.target.value))}
-              className="w-full h-2 bg-[rgba(255,255,255,0.1)] rounded-lg appearance-none cursor-pointer accent-[rgba(255,200,87,1)]"
+              className="w-full appearance-none cursor-pointer slider"
             />
           </div>
         </div>
@@ -221,76 +221,6 @@ export function PartialDerivativeBreakdown() {
         </div>
       </div>
 
-      {/* Gradient descent update */}
-      <div className="bg-[rgba(255,200,87,0.08)] border border-[rgba(255,200,87,0.3)] rounded-lg p-5">
-        <h4 className="text-sm font-semibold text-[color:var(--color-text-primary)] mb-3">
-          Gradient Descent Update Rule
-        </h4>
-
-        <div className="space-y-3">
-          <p className="text-sm text-[color:var(--color-text-secondary)]">
-            Since the gradient points <strong>uphill</strong>, we move in the{" "}
-            <strong>opposite direction</strong> to go <strong>downhill</strong>:
-          </p>
-
-          <div className="bg-white border border-gray-200 rounded-lg p-4">
-            <div className="text-center mb-3">
-              <BlockMath math="w_{new} = w - \alpha \cdot \frac{\partial J}{\partial w}" />
-            </div>
-            <div className="text-center">
-              <BlockMath math="b_{new} = b - \alpha \cdot \frac{\partial J}{\partial b}" />
-            </div>
-          </div>
-
-          <div className="bg-amber-50 border border-amber-200 p-3 rounded">
-            <div className="text-xs font-semibold text-[color:var(--color-text-primary)] mb-2">
-              Example with α = 0.1:
-            </div>
-            <div className="space-y-1 text-xs font-mono">
-              <div>
-                <InlineMath
-                  math={`w_{new} = ${wVal.toFixed(1)} - 0.1 \\cdot ${gradW.toFixed(1)} = ${(wVal - 0.1 * gradW).toFixed(2)}`}
-                />
-              </div>
-              <div>
-                <InlineMath
-                  math={`b_{new} = ${bVal.toFixed(1)} - 0.1 \\cdot ${gradB.toFixed(1)} = ${(bVal - 0.1 * gradB).toFixed(2)}`}
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="text-xs text-[color:var(--color-text-secondary)] italic">
-            The minus sign ensures we move <strong>downhill</strong> (opposite to gradient) toward
-            lower cost!
-          </div>
-        </div>
-      </div>
-
-      {/* Key takeaways */}
-      <div className="bg-[rgba(63,94,251,0.08)] border border-[rgba(63,94,251,0.3)] rounded-lg p-4">
-        <h4 className="text-sm font-semibold text-[color:var(--color-text-primary)] mb-2">
-          Key Takeaways
-        </h4>
-        <ul className="text-sm text-[color:var(--color-text-secondary)] space-y-1">
-          <li>
-            • <strong>Partial derivative:</strong> Rate of change in one direction (other variables
-            fixed)
-          </li>
-          <li>
-            • <strong>Gradient:</strong> Vector combining all partial derivatives [∂J/∂w, ∂J/∂b]
-          </li>
-          <li>
-            • <strong>Direction:</strong> Gradient points uphill (toward higher cost)
-          </li>
-          <li>
-            • <strong>Magnitude:</strong> How steep the cost surface is
-          </li>
-          <li>
-            • <strong>Optimization:</strong> Move opposite to gradient (downhill) to minimize cost
-          </li>
-        </ul>
-      </div>
     </div>
   );
 }

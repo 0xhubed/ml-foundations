@@ -357,20 +357,6 @@ export function CostFunctionDualPanel() {
 
   return (
     <FullScreenCard className="glass-panel p-6" title="Interactive Cost Function Explorer">
-      {/* Linear Model Explanation */}
-      <div className="mb-4 bg-[rgba(34,197,94,0.08)] border border-[rgba(34,197,94,0.3)] rounded-lg p-4">
-        <h4 className="text-sm font-semibold text-[color:var(--color-text-primary)] mb-2">
-          The Simplest Neural Network: Linear Model
-        </h4>
-
-        <div className="text-sm text-[color:var(--color-text-secondary)] mt-4">
-          <BlockMath math="f_{w,b}(x) = w \cdot x + b" />
-          <p className="mt-2">
-            <strong>w</strong> = slope (how much y changes per unit of x), <strong>b</strong> = intercept (where the line crosses y-axis).
-          </p>
-        </div>
-      </div>
-
       {/* Mathematical Formula */}
       <div className="mb-6 bg-[rgba(107,140,174,0.08)] border border-[rgba(107,140,174,0.3)] rounded-lg p-4">
         <h4 className="text-sm font-semibold text-[color:var(--color-text-primary)] mb-3">
@@ -395,7 +381,7 @@ export function CostFunctionDualPanel() {
           <div>
             <div className="flex justify-between items-center mb-2">
               <label className="text-sm font-medium text-[color:var(--color-text-primary)]">
-                Weight (w) - slope
+                Weight (w): slope
               </label>
               <span className="text-sm text-[color:var(--color-text-secondary)] font-mono">
                 {w.toFixed(1)}
@@ -416,7 +402,7 @@ export function CostFunctionDualPanel() {
           <div>
             <div className="flex justify-between items-center mb-2">
               <label className="text-sm font-medium text-[color:var(--color-text-primary)]">
-                Bias (b) - intercept
+                Bias (b): intercept
               </label>
               <span className="text-sm text-[color:var(--color-text-secondary)] font-mono">
                 {b.toFixed(0)}
@@ -479,6 +465,7 @@ export function CostFunctionDualPanel() {
           data={predictionPlot.data}
           layout={predictionPlot.layout}
           config={config}
+          useResizeHandler
           style={{ width: "100%", height: "100%" }}
         />
       </div>
@@ -490,7 +477,7 @@ export function CostFunctionDualPanel() {
             See the Connection:
           </strong>{" "}
           Adjust w (slope) and b (intercept) to fit the line to the data points.
-          The MSE measures how wrong your predictions are - lower is better.
+          The MSE measures how wrong your predictions are: lower is better.
         </p>
       </div>
     </FullScreenCard>

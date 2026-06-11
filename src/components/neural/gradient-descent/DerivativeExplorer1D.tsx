@@ -1,12 +1,10 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { InlineMath, BlockMath } from "react-katex";
+import { BlockMath } from "react-katex";
 
 export function DerivativeExplorer1D() {
   const [xPoint, setXPoint] = useState(-1.5);
-  const [showSteps, setShowSteps] = useState(false);
-  const [learningRate, setLearningRate] = useState(0.3);
 
   // Function: f(x) = x²
   const f = (x: number) => x * x;
@@ -38,21 +36,9 @@ export function DerivativeExplorer1D() {
     return points;
   }, [xPoint, currentY, currentSlope]);
 
-  // Calculate next step for gradient descent
-  const nextX = xPoint - learningRate * currentSlope;
-  const nextY = f(nextX);
-
   // SVG coordinate system (map from data space to SVG space)
   const mapX = (x: number) => ((x + 3) / 6) * 500 + 50;
   const mapY = (y: number) => 450 - (y / 10) * 400;
-
-  const takeStep = () => {
-    setXPoint(nextX);
-  };
-
-  const reset = () => {
-    setXPoint(-1.5);
-  };
 
   return (
     <div className="glass-panel p-6 space-y-6">
@@ -182,35 +168,6 @@ export function DerivativeExplorer1D() {
             />
           )}
 
-          {/* Next step indicator (if gradient descent) */}
-          {showSteps && Math.abs(currentSlope) > 0.01 && (
-            <>
-              <circle cx={mapX(nextX)} cy={mapY(nextY)} r="6" fill="rgba(34,197,94,0.5)" />
-              <line
-                x1={mapX(xPoint)}
-                y1={mapY(currentY)}
-                x2={mapX(nextX)}
-                y2={mapY(nextY)}
-                stroke="rgba(34,197,94,0.8)"
-                strokeWidth="2"
-                strokeDasharray="4 2"
-                markerEnd="url(#arrowhead)"
-              />
-              <defs>
-                <marker
-                  id="arrowhead"
-                  markerWidth="10"
-                  markerHeight="10"
-                  refX="9"
-                  refY="3"
-                  orient="auto"
-                >
-                  <polygon points="0 0, 10 3, 0 6" fill="rgba(34,197,94,0.8)" />
-                </marker>
-              </defs>
-            </>
-          )}
-
           {/* Current point (draggable) */}
           <circle
             cx={mapX(xPoint)}
@@ -269,9 +226,8 @@ export function DerivativeExplorer1D() {
         </svg>
       </div>
 
-      {/* Controls */}
-      <div className="grid md:grid-cols-2 gap-4">
-        {/* Current state display */}
+      {/* Current state display */}
+      <div className="max-w-md">
         <div className="bg-[rgba(107,140,174,0.08)] border border-[rgba(107,140,174,0.3)] rounded-lg p-4">
           <h4 className="text-sm font-semibold text-[color:var(--color-text-primary)] mb-3">
             Current State
@@ -311,70 +267,6 @@ export function DerivativeExplorer1D() {
           </div>
         </div>
 
-        {/* Gradient descent simulator */}
-        <div className="bg-[rgba(34,197,94,0.08)] border border-[rgba(34,197,94,0.3)] rounded-lg p-4">
-          <h4 className="text-sm font-semibold text-[color:var(--color-text-primary)] mb-3">
-            Gradient Descent Step
-          </h4>
-          <div className="space-y-3">
-            <div>
-              <label className="text-xs text-[color:var(--color-text-secondary)] mb-1 block">
-                Learning Rate α: {learningRate.toFixed(2)}
-              </label>
-              <input
-                type="range"
-                min="0.1"
-                max="0.9"
-                step="0.1"
-                value={learningRate}
-                onChange={(e) => setLearningRate(parseFloat(e.target.value))}
-                className="w-full h-2 bg-[rgba(0,0,0,0.1)] rounded-lg appearance-none cursor-pointer accent-[rgba(34,197,94,1)]"
-              />
-            </div>
-
-            <div className="text-sm space-y-1">
-              <div className="font-mono text-xs bg-[rgba(15,76,129,0.06)] p-2 rounded">
-                <InlineMath math={`x_{new} = x - \\alpha \\cdot f'(x)`} />
-              </div>
-              <div className="font-mono text-xs bg-[rgba(15,76,129,0.06)] p-2 rounded">
-                <InlineMath
-                  math={`x_{new} = ${xPoint.toFixed(2)} - ${learningRate.toFixed(2)} \\cdot ${currentSlope.toFixed(2)} = ${nextX.toFixed(2)}`}
-                />
-              </div>
-            </div>
-
-            <div className="flex gap-2">
-              <button
-                onClick={() => {
-                  setShowSteps(true);
-                  takeStep();
-                }}
-                disabled={Math.abs(currentSlope) < 0.01}
-                className="flex-1 px-4 py-2 bg-[rgba(34,197,94,0.2)] hover:bg-[rgba(34,197,94,0.3)] border border-[rgba(34,197,94,0.5)] rounded-lg text-sm font-medium text-[color:var(--color-text-primary)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Take One Step
-              </button>
-              <button
-                onClick={reset}
-                className="px-4 py-2 bg-[rgba(15,76,129,0.06)] hover:bg-[rgba(15,76,129,0.12)] border border-[rgba(15,76,129,0.12)] rounded-lg text-sm font-medium text-[color:var(--color-text-secondary)] transition-colors"
-              >
-                Reset
-              </button>
-            </div>
-
-            <label className="flex items-center gap-2 text-xs cursor-pointer">
-              <input
-                type="checkbox"
-                checked={showSteps}
-                onChange={(e) => setShowSteps(e.target.checked)}
-                className="w-4 h-4 accent-[rgba(34,197,94,1)]"
-              />
-              <span className="text-[color:var(--color-text-secondary)]">
-                Show next step preview
-              </span>
-            </label>
-          </div>
-        </div>
       </div>
 
       {/* Key insight */}
@@ -383,10 +275,11 @@ export function DerivativeExplorer1D() {
           Key Insight: Derivative = Direction to Move
         </h4>
         <p className="text-sm text-[color:var(--color-text-secondary)]">
-          The derivative tells us the slope. Since we want to go <strong>downhill</strong> (minimize
-          f(x)), we move in the <strong>opposite direction</strong> of the derivative. That&apos;s
-          why the update rule has a minus sign: x ← x - α·f&apos;(x). Try different learning rates
-          to see how step size affects convergence!
+          The derivative tells us the slope, and the slope tells us the direction: a{" "}
+          <strong>positive</strong> slope means downhill is to the left, a <strong>negative</strong>{" "}
+          slope means downhill is to the right, and a slope of <strong>zero</strong> means
+          you&apos;re standing at the bottom. How to turn that direction into actual steps toward
+          the minimum is the next section: gradient descent.
         </p>
       </div>
     </div>

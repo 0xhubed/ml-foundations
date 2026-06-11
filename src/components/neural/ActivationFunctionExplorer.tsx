@@ -113,6 +113,7 @@ export function ActivationFunctionExplorer() {
               },
             }}
             config={{ displayModeBar: false, responsive: true }}
+            useResizeHandler
             style={{ width: "100%", height: "100%" }}
           />
         </div>
@@ -120,7 +121,7 @@ export function ActivationFunctionExplorer() {
         {/* Descriptions on the right */}
         <div className="space-y-4">
           <div className="bg-[rgba(148,163,184,0.08)] border-2 border-[rgba(148,163,184,0.3)] rounded-lg p-4">
-            <h4 className="font-semibold text-white mb-2 flex items-center gap-2">
+            <h4 className="font-semibold text-[color:var(--color-text-primary)] mb-2 flex items-center gap-2">
               <span className="text-[rgba(148,163,184,1)]">✗</span> Linear: f(x) = x
             </h4>
             <p className="text-sm text-[color:var(--color-text-secondary)]">
@@ -130,7 +131,7 @@ export function ActivationFunctionExplorer() {
           </div>
 
           <div className="bg-[rgba(255,200,87,0.08)] border-2 border-[rgba(255,200,87,0.4)] rounded-lg p-4">
-            <h4 className="font-semibold text-white mb-2 flex items-center gap-2">
+            <h4 className="font-semibold text-[color:var(--color-text-primary)] mb-2 flex items-center gap-2">
               <span className="text-[rgba(255,200,87,1)]">✓</span> ReLU: f(x) = max(0, x)
             </h4>
             <p className="text-sm text-[color:var(--color-text-secondary)]">

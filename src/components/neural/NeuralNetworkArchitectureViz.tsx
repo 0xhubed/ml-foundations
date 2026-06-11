@@ -20,7 +20,6 @@ type Connection = {
 
 export function NeuralNetworkArchitectureViz() {
   const [showWeights, setShowWeights] = useState(true);
-  const [showBackprop, setShowBackprop] = useState(false);
   const [highlightPath, setHighlightPath] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalData, setModalData] = useState<MatrixClickData | null>(null);
@@ -121,9 +120,6 @@ export function NeuralNetworkArchitectureViz() {
     if (isHighlighted) {
       return "#0F4C81";
     }
-    if (showBackprop) {
-      return "rgba(34,197,94,0.5)";
-    }
     return "rgba(15,76,129,0.6)";
   };
 
@@ -151,16 +147,6 @@ export function NeuralNetworkArchitectureViz() {
           <span className="text-[color:var(--color-text-secondary)]">Show Weights</span>
         </label>
 
-        <label className="flex items-center gap-2 text-sm cursor-pointer">
-          <input
-            type="checkbox"
-            checked={showBackprop}
-            onChange={(e) => setShowBackprop(e.target.checked)}
-            className="w-4 h-4 accent-[rgba(34,197,94,1)]"
-          />
-          <span className="text-[color:var(--color-text-secondary)]">Show Backpropagation</span>
-        </label>
-
         <div className="ml-auto text-sm text-[color:var(--color-text-secondary)]">
           Click on any node or connection to see matrix multiplication details
         </div>
@@ -169,20 +155,6 @@ export function NeuralNetworkArchitectureViz() {
       {/* Network Visualization */}
       <div className="bg-[rgba(248,250,252,0.5)] rounded-lg p-8 border border-[rgba(0,0,0,0.08)] mb-6">
         <svg viewBox="0 0 700 400" className="w-full neural-network-viz" style={{ maxHeight: "500px" }}>
-          <defs>
-            {/* Arrow marker for backprop */}
-            <marker
-              id="arrowhead-back"
-              markerWidth="10"
-              markerHeight="10"
-              refX="9"
-              refY="3"
-              orient="auto"
-            >
-              <polygon points="0 0, 10 3, 0 6" fill="rgba(34,197,94,0.6)" />
-            </marker>
-          </defs>
-
           {/* Draw connections */}
           {connections.map((conn, idx) => {
             const fromNode = getNode(conn.from);
@@ -224,19 +196,6 @@ export function NeuralNetworkArchitectureViz() {
                   </text>
                 )}
 
-                {/* Backprop arrow */}
-                {showBackprop && (
-                  <line
-                    x1={toNode.x - 25}
-                    y1={toNode.y + 3}
-                    x2={fromNode.x + 25}
-                    y2={fromNode.y + 3}
-                    stroke="rgba(34,197,94,0.6)"
-                    strokeWidth="2"
-                    strokeDasharray="4 2"
-                    markerEnd="url(#arrowhead-back)"
-                  />
-                )}
               </g>
             );
           })}
@@ -316,9 +275,9 @@ export function NeuralNetworkArchitectureViz() {
             Output Layer
           </text>
 
-          {/* Activation function notation */}
+          {/* Per-node computation notation */}
           <text x={350} y={370} fontSize="12" fill="#6B7280" textAnchor="middle">
-            σ(Wx + b)
+            Wx + b
           </text>
         </svg>
       </div>
@@ -341,7 +300,7 @@ export function NeuralNetworkArchitectureViz() {
             <h4 className="text-sm font-semibold text-[color:var(--color-text-primary)]">Hidden Layer</h4>
           </div>
           <p className="text-xs text-[color:var(--color-text-secondary)]">
-            Learned representations. Each node computes: σ(weighted sum + bias)
+            Learned representations. Each node computes a weighted sum of its inputs, plus a bias.
           </p>
         </div>
 
@@ -356,33 +315,19 @@ export function NeuralNetworkArchitectureViz() {
         </div>
       </div>
 
-      {/* Forward and Backward Pass Explanation */}
-      <div className="grid md:grid-cols-2 gap-4 mb-6">
+      {/* Forward Pass Explanation */}
+      <div className="max-w-md mb-6">
         <div className="bg-[rgba(107,140,174,0.08)] border border-[rgba(107,140,174,0.3)] rounded-lg p-4">
           <h4 className="text-sm font-semibold text-[color:var(--color-text-primary)] mb-2">
-            Forward Pass
+            How Data Flows Through It
           </h4>
           <ul className="text-xs text-[color:var(--color-text-secondary)] space-y-1">
             <li>1. Data flows from input → hidden → output</li>
             <li>2. Each connection has a weight (w)</li>
-            <li>3. Each node computes: activation(Σ(w×input) + bias)</li>
+            <li>3. Each node computes: Σ(w×input) + bias</li>
             <li>4. Output is the prediction</li>
           </ul>
         </div>
-
-        {showBackprop && (
-          <div className="bg-[rgba(34,197,94,0.08)] border border-[rgba(34,197,94,0.3)] rounded-lg p-4">
-            <h4 className="text-sm font-semibold text-[color:var(--color-text-primary)] mb-2">
-              Backward Pass (Backpropagation)
-            </h4>
-            <ul className="text-xs text-[color:var(--color-text-secondary)] space-y-1">
-              <li>1. Compute error at output layer</li>
-              <li>2. Gradients flow backward (output → hidden → input)</li>
-              <li>3. Each weight gets gradient: ∂Loss/∂w</li>
-              <li>4. Update weights: w := w - α×∂Loss/∂w</li>
-            </ul>
-          </div>
-        )}
       </div>
     </FullScreenCard>
     </>

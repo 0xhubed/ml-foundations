@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { useMemo, useState } from "react";
 import type { Config, Data, Layout } from "plotly.js";
 import { lightThemeLayout3D, PLOTLY_COLORS } from "@/lib/plotlyLightTheme";
+import { usePlotContainerWidth } from "@/lib/usePlotContainerWidth";
 
 const Plot = dynamic(() => import("react-plotly.js"), {
   ssr: false,
@@ -44,6 +45,7 @@ function generateNonLinearData() {
 export function NonLinearRegressionDemo() {
   const [showLinear, setShowLinear] = useState(false);
   const [showNeural, setShowNeural] = useState(false);
+  const { ref: plotContainerRef, width: plotWidth } = usePlotContainerWidth();
 
   const data = useMemo(() => generateNonLinearData(), []);
 
@@ -326,13 +328,17 @@ export function NonLinearRegressionDemo() {
       </div>
 
       {/* Visualization Container */}
-      <div className="mb-6 rounded-xl overflow-hidden border border-[rgba(0,0,0,0.1)] bg-[rgba(248,250,252,0.5)]">
-        <Plot
-          data={plotData}
-          layout={layout3D}
-          config={config}
-          style={{ width: "100%", height: "580px" }}
-        />
+      <div ref={plotContainerRef} className="mb-6 rounded-xl overflow-hidden border border-[rgba(0,0,0,0.1)] bg-[rgba(248,250,252,0.5)]">
+        {plotWidth > 0 && (
+          <Plot
+            key={plotWidth}
+            data={plotData}
+            layout={layout3D}
+            config={config}
+            useResizeHandler
+            style={{ width: "100%", height: "580px" }}
+          />
+        )}
       </div>
 
       {/* Info Cards */}
